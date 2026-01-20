@@ -1,12 +1,9 @@
 import "./JustStatusBar.css"
-import {
-  BOTTOM_PANEL_NODE_NAME,
-} from "@/app/layout/layout.tsx";
-import classNames from "classnames";
-import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
-import {faTerminal} from "@fortawesome/free-solid-svg-icons";
+// import {
+//   BOTTOM_PANEL_NODE_NAME,
+// } from "@/app/layout/layout.tsx";
 import {JustId} from "@/app/components/just-layout/justLayout.types.ts";
-import {useJustLayoutStore} from "@/app/components/just-layout/useJustLayoutStore.ts";
+// import {useJustLayoutStore} from "@/app/components/just-layout/useJustLayoutStore.ts";
 import {observer} from "mobx-react-lite";
 
 interface Props {
@@ -14,15 +11,15 @@ interface Props {
   layoutId: string
 }
 const JustStatusBar = observer(({justId: _justId, layoutId}: Props) => {
-  const justLayoutStore = useJustLayoutStore(layoutId)
+  // const justLayoutStore = useJustLayoutStore(layoutId)
 
 
-  const toggleBottomPanel = () => {
-    justLayoutStore.toggleWin({nodeName: BOTTOM_PANEL_NODE_NAME})
-  }
+  // const toggleBottomPanel = () => {
+  //   justLayoutStore.toggleWin({nodeName: BOTTOM_PANEL_NODE_NAME})
+  // }
 
   // const size = justLayoutStore.getSizeByNodeName({nodeName: BOTTOM_PANEL_NODE_NAME}) ?? INIT_BOTTOM_PANEL_SIZE;
-  const isHide = justLayoutStore.isPrimaryHide({nodeName: BOTTOM_PANEL_NODE_NAME}) ?? false;
+  // const isHide = justLayoutStore.isPrimaryHide({nodeName: BOTTOM_PANEL_NODE_NAME}) ?? false;
   return (
     <div className="just-status-bar">
       <div className="just-status-center">

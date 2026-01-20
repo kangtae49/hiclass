@@ -22,7 +22,7 @@ interface Props {
 }
 
 const JustNodeView: React.FC<Props> = observer(({ layoutId, isFullScreenView, hideTitle, dndAccept, node, justBranch, getWinInfo, closeWin, onClickTitle, onDoubleClickTitle }) => {
-  const refNode = useRef<HTMLDivElement>(null);
+  const refNode = useRef<HTMLDivElement | null>(null);
 
   const justLayoutStore = useJustLayoutStore(layoutId)
 

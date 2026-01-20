@@ -86,7 +86,6 @@ const WatchListener = observer((): null => {
           } else if (watchFile.path.toLowerCase().endsWith('.json')) {
             jsonDataStore.updateJsonData({
               path: watchFile.path,
-              header: [],
               data: {}
             })
           }

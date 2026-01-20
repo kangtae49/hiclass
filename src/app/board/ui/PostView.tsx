@@ -1,7 +1,5 @@
 import {observer} from "mobx-react-lite";
 import {JustId} from "@/app/components/just-layout/justLayout.types.ts";
-import useBoardStore from "@/app/board/useBoardStore.ts";
-import {BOARD_ID} from "@/app/board/board.constants.ts";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
 import pathUtils from "@/utils/pathUtils.ts";
@@ -17,7 +15,7 @@ interface Props {
   layoutId: string
 }
 
-const postView = observer(({justId, layoutId}: Props) => {
+const postView = observer(({justId, layoutId: _layoutId}: Props) => {
   const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
   const postId = JustUtil.getParamString(justId, "postId")!
   const boardId = JustUtil.getParamString(justId, "boardId")!

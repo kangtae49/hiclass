@@ -17,7 +17,7 @@ export class JustLayoutService {
       return layout
     }
 
-    const targetTabs = targetNode.tabs
+    const targetTabs = (targetNode as JustStack).tabs
     const newIndex = payload.index >= 0 ? clamp(payload.index, 0, targetTabs.length) : targetTabs.length;
     return this.updateNodeOfBranch(layout, payload.branch, {
       $set: {
@@ -440,9 +440,9 @@ export class JustLayoutService {
 //
 
 
-  updateNode = (layout: JustNode | null, updateSpec: JustUpdateSpec)=> {
+  updateNode = (layout: JustNode | null, updateSpec: JustUpdateSpec): JustNode | null => {
     if (layout == null) return null;
-    return update(layout, updateSpec)
+    return update(layout, updateSpec) as JustNode
   }
 
   buildSpecFromUpdateSpec = (branch: JustBranch, updateSpec: JustUpdateSpec): JustUpdateSpec => {
@@ -479,7 +479,7 @@ export class JustLayoutService {
     return currentBranch
   }
 
-  updateSplitSize = (node: JustNode | null, branch: JustBranch, size: number) => {
+  updateSplitSize = (node: JustNode | null, branch: JustBranch, size: number): JustNode | null => {
     const updateSpec = this.buildSpecFromUpdateSpec(branch, {
       $merge: {
         size: size

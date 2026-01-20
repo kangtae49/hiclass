@@ -1,8 +1,5 @@
 import {observer} from "mobx-react-lite";
-import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
-import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
 import {useEffect} from "react";
-import pathUtils from "@/utils/pathUtils.ts";
 import PostAttachList from "@/app/board/ui/PostAttachList.tsx";
 import {format} from "date-fns";
 
@@ -12,7 +9,7 @@ interface Props {
   comments: any []
 }
 
-const CommentList = observer(({boardId, postId, comments}) => {
+const CommentList = observer(({boardId, postId, comments}: Props) => {
   // const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
   // const commentKey = pathUtils.getScriptSubPath(`data\\${boardId}_comment\\${postId}.json`)
   // const data = jsonDataStore.jsonDataMap[commentKey]?.data

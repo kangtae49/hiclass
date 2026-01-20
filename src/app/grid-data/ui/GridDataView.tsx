@@ -19,7 +19,7 @@ interface Props {
 }
 
 const GridDataView = observer(({justId}: Props) => {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement | null>(null)
 
   const gridDataStore = useGridDataStore(GRID_DATA_ID)
 
@@ -86,7 +86,6 @@ const GridDataView = observer(({justId}: Props) => {
       </div>
       <div className="grid-container">
         <JustGrid
-          key={dataKey}
           dataKey={dataKey}
         />
       </div>

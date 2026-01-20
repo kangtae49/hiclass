@@ -71,7 +71,7 @@ const JustGrid = observer(({dataKey}: Props) => {
   const gridDataStore = useGridDataStore(GRID_DATA_ID)
   const [columnsSize, setColumnsSize] = useState({});
 
-  const ref = useRef<ReactGrid>(null)
+  const ref = useRef<ReactGrid | null>(null)
 
 
   const defaultConfigTable: GridData = {path: dataKey, header: [], data: []}

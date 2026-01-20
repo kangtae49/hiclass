@@ -25,7 +25,7 @@ const MonthPicker = observer(({value, onChange}: Props) => {
 
         // withPortal
         showIcon
-        locale={ko}
+        locale={ko as any}
         showMonthYearPicker
         popperPlacement="bottom-start"
         todayButton="오늘"

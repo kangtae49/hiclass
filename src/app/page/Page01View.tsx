@@ -50,10 +50,10 @@ const Page01View = observer(({justId}: Props)=> {
       color: "#1140bd"
     }
   ]
-  const ref = useRef<HTMLDivElement>(null)
-  const refGrid = useRef<HTMLDivElement>(null)
-  const refChart = useRef<HTMLDivElement>(null)
-  const refJob = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement | null>(null)
+  const refGrid = useRef<HTMLDivElement | null>(null)
+  const refChart = useRef<HTMLDivElement | null>(null)
+  const refJob = useRef<HTMLDivElement | null>(null)
 
   const pageStore = usePageStore(JustUtil.toString(justId));
 
@@ -156,7 +156,7 @@ const Page01View = observer(({justId}: Props)=> {
   const clickStropScript = (e: React.MouseEvent) => {
     e.preventDefault()
     if (pageStore.jobInfo?.jobId) {
-      window.api.stopScript(pageStore.jobInfo?.jobId).then()
+      window.api.stopScript(pageStore.jobInfo.jobId).then()
     }
   }
 

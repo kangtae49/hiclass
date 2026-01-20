@@ -14,7 +14,7 @@ interface Props {
 
 const Terminal = observer(({jobId}: Props) => {
 
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const termRef = useRef<XTerm | null>(null);
   const fitAddonRef = useRef<FitAddon | null>(null);
 

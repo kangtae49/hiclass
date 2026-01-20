@@ -27,7 +27,7 @@ interface Prop {
 }
 
 const JustWinTitleView = observer(({layoutId, isFullScreenView, dndAccept, justBranch, justStack, getWinInfo, closeWin, onClickTitle, onDoubleClickTitle}: Prop) => {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement | null>(null)
   const [rect, setRect] = useState<DOMRect | null>(null)
 
   const justLayoutStore = useJustLayoutStore(layoutId);
@@ -146,7 +146,7 @@ const JustWinTitleView = observer(({layoutId, isFullScreenView, dndAccept, justB
       <div className={classNames("just-title-list", {"is-over": isOver})} ref={ref}>
         {justStack.tabs.map(justId =>
           <JustDraggableTitle
-            key={[...justBranch, JustUtil.toString(justId)].join(",")}
+            // key={[...justBranch, JustUtil.toString(justId)].join(",")}
             layoutId={layoutId}
             isFullScreenView={isFullScreenView}
             dndAccept={dndAccept}
@@ -170,7 +170,7 @@ const JustWinTitleView = observer(({layoutId, isFullScreenView, dndAccept, justB
           {justStack.tabs.map(justId =>
             <MenuItem key={JustUtil.toString(justId)}
                       className={classNames("just-menu-item", {"active": JustUtil.isEquals(justStack.active, justId)})}>
-              <div className="just-icon" onClick={() => activeWin(justId)}>{getWinInfo(justId).icon}</div>
+              <div className="just-icon" onClick={() => activeWin(justId)}>{getWinInfo(justId).getIcon(justId, layoutId)}</div>
               <div className="just-title" onClick={() => activeWin(justId)}>
                 {getTitle(justId)}
               </div>

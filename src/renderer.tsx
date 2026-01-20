@@ -38,7 +38,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css';
 import App from './App'
-import { toJS } from 'mobx';
+// import { toJS } from 'mobx';
 // (window as any).toJS = toJS;
 
 // import {container} from "@/inversify.config.ts";

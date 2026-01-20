@@ -36,7 +36,7 @@ interface Props {
 }
 
 const JustSplitter = observer(({ node, containerRef, onChange, onRelease }: Props) => {
-  const refSplit = useRef<HTMLDivElement>(null);
+  const refSplit = useRef<HTMLDivElement | null>(null);
   const [listenersBound, setListenersBound] = useState(false);
 
   const bindListeners = () => {

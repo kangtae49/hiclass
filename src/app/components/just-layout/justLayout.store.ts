@@ -274,6 +274,7 @@ export class JustLayoutStore {
   }
 
   updateResize = (payload: JustPayloadResize) => {
+    if (this.layout === null) return;
     this.layout = this.service.updateSplitSize(
       this.layout,
       payload.branch,

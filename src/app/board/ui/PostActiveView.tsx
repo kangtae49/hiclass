@@ -6,7 +6,7 @@ import {BOARD_ID} from "@/app/board/board.constants.ts";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
 import pathUtils from "@/utils/pathUtils.ts";
-import {useCallback, useEffect} from "react";
+import {useEffect} from "react";
 import {replaceUrl} from "@/utils/htmlUtils.ts";
 import CommentList from "@/app/board/ui/CommentList.tsx";
 import PostAttachList from "@/app/board/ui/PostAttachList.tsx";

@@ -6,14 +6,13 @@ import {Menu, MenuItem} from "@szhsin/react-menu";
 import Jdenticon from "react-jdenticon";
 import {JustUtil} from "@/app/components/just-layout/justUtil.ts";
 import {
-  aboutId, CONTENTS_VIEW, excalidrawViewId, helpId,
+  aboutId, CONTENTS_VIEW, excalidrawViewId,
   INIT_SIDE_MENU_SIZE,
   SIDE_MENU_NODE_NAME, ViewId,
   viewMap
 } from "@/app/layout/layout.tsx";
 import {useJustLayoutStore} from "@/app/components/just-layout/useJustLayoutStore.ts";
 import {JustId} from "@/app/components/just-layout/justLayout.types.ts";
-import {GRID_DATA_KEYS} from "@/app/grid-data/gridData.constants.ts";
 import {observer} from "mobx-react-lite";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
@@ -31,7 +30,6 @@ const JustToolBar = observer(({justId: _justId, layoutId}: Props) => {
   const justLayoutStore = useJustLayoutStore(layoutId)
   const boardListKey = pathUtils.getScriptSubPath("data\\board_list.json")
   const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
-  const boardStore = useBoardStore(BOARD_ID)
 
 
   const toggleSideMenu = () => {

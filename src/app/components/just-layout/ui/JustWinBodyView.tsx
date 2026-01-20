@@ -18,7 +18,7 @@ interface Prop {
 }
 
 const JustWinBodyView = observer((props: Prop) => {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement | null>(null)
 
   const { layoutId, dndAccept, getWinInfo, justBranch, justStack } = props;
   const [overlayRect, setOverlayRect] = useState<{ top: number, left: number, width: number, height: number }|null>(null)

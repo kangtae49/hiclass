@@ -2,15 +2,13 @@ import "./SideMenu.css"
 import Jdenticon from "react-jdenticon";
 import IconMinimize from "@/assets/minimize.svg?react"
 import {JustUtil} from "@/app/components/just-layout/justUtil.ts";
-import {CONTENTS_VIEW, SIDE_MENU_ID_LIST, SIDE_MENU_NODE_NAME} from "@/app/layout/layout";
+import {CONTENTS_VIEW, SIDE_MENU_NODE_NAME} from "@/app/layout/layout";
 import {useJustLayoutStore} from "@/app/components/just-layout/useJustLayoutStore.ts";
 import {JustId} from "@/app/components/just-layout/justLayout.types.ts";
 import {observer} from "mobx-react-lite";
 import pathUtils from "@/utils/pathUtils.ts";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
-import useBoardStore from "@/app/board/useBoardStore.ts";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
-import {BOARD_ID} from "@/app/board/board.constants.ts";
 import {useEffect} from "react";
 
 interface Props {
@@ -21,7 +19,6 @@ const SideMenu = observer(({justId: _justId, layoutId}: Props) => {
   const justLayoutStore = useJustLayoutStore(layoutId)
   const boardListKey = pathUtils.getScriptSubPath("data\\board_list.json")
   const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
-  const boardStore = useBoardStore(BOARD_ID)
 
   const toggleSideMenu = () => {
     justLayoutStore.toggleWin({nodeName: SIDE_MENU_NODE_NAME})
@@ -32,9 +29,9 @@ const SideMenu = observer(({justId: _justId, layoutId}: Props) => {
     console.log('openBoard', justId)
     justLayoutStore.openWinByNodeName({justId, nodeName: CONTENTS_VIEW})
   }
-  const openWin = (justId: JustId) => {
-    justLayoutStore.openWinMenu({justId, nodeName: CONTENTS_VIEW})
-  }
+  // const openWin = (justId: JustId) => {
+  //   justLayoutStore.openWinMenu({justId, nodeName: CONTENTS_VIEW})
+  // }
 
   useEffect(() => {
     console.log(boardListKey)

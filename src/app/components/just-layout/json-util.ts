@@ -7,7 +7,7 @@ function sort(value: any): any {
   if (value && typeof value === "object") {
     return Object.fromEntries(
       Object.entries(value)
-        .sort(([a], [b]) => a.localeCompare(b))
+        .sort((a, b) => a[0].localeCompare(b[0]))
         .map(([k, v]) => [k, sort(v)])
     );
   }

@@ -25,13 +25,13 @@ interface Props {
   layoutId: string
 }
 const ExcalidrawView = observer(({justId, layoutId}: Props) => {
-  const excalidrawRef = useRef<ExcalidrawImperativeAPI>(null);
+  const excalidrawRef = useRef<ExcalidrawImperativeAPI | null>(null);
   const excalidrawDataStore = useExcalidrawDataStore(EXCALIDRAW_DATA_ID)
 
   const justLayoutStore = useJustLayoutStore(layoutId);
   const excalidrawStore = useExcalidrawStore(JustUtil.toString(justId))
   const [isFullScreen, setIsFullScreen] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement | null>(null)
   const [dataKey, setDataKey] = useState<string | null>(JustUtil.getParamString(justId, 'file') ?? null)
 
   const changeFullScreen = async () => {
@@ -88,7 +88,7 @@ const ExcalidrawView = observer(({justId, layoutId}: Props) => {
     // }
     // console.log("handleChange", elements, appState, files)
     if (appState.fileHandle) {
-      const file = await appState.fileHandle.getFile() as File;
+      const file = await (appState.fileHandle as any).getFile() as File;
       const filePath = window.api.getPathForFile(file)
       console.log('filePath:', filePath)
     }

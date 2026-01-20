@@ -12,7 +12,6 @@ import {appModule} from "@/app/listeners/app.module.ts";
 import {excalidrawModule} from "@/app/excalidraw/excalidraw.module.ts";
 import {excalidrawDataModule} from "@/app/excalidraw-data/excalidrawData.module.ts";
 import {toJS} from "mobx";
-import {AppStore} from "@/app/listeners/app.store.ts";
 import {jsonDataModule} from "@/app/json-data/jsonData.module.ts";
 import {boardModule} from "@/app/board/board.module.ts";
 

@@ -17,7 +17,7 @@ interface Props {
   layoutId: string
 }
 const ExcalidrawDataView = observer(({justId, layoutId}: Props) => {
-  const excalidrawRef = useRef<ExcalidrawImperativeAPI>(null);
+  const excalidrawRef = useRef<ExcalidrawImperativeAPI | null>(null);
 
   const justLayoutStore = useJustLayoutStore(layoutId);
   const excalidrawDataStore = useExcalidrawDataStore(EXCALIDRAW_DATA_ID)

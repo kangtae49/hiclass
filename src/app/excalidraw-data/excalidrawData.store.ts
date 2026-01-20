@@ -25,7 +25,7 @@ export class ExcalidrawDataStore {
       ...existing,
       data: payload.data,
       timestamp: payload.timestamp,
-    }
+    } as ExcalidrawData
 
     this.excalidrawDataMap = {
       ...this.excalidrawDataMap,
@@ -38,7 +38,7 @@ export class ExcalidrawDataStore {
     const newExcalidrawData: ExcalidrawData = {
       ...existing,
       isLocked: payload.isLocked
-    }
+    } as ExcalidrawData
 
     this.excalidrawDataMap = {
       ...this.excalidrawDataMap,
