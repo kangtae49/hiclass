@@ -79,6 +79,10 @@
     overflow: hidden;
 }
 
+.board-list-row.active {
+    background-color: #0d1633;
+}
+
 .board-list-icon {
     flex: 0 0 20px;
     width: 20px;

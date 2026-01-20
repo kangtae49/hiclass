@@ -32,10 +32,8 @@ const PostActiveView = observer(({justId, layoutId}: Props) => {
   const commentKey = pathUtils.getScriptSubPath(`data\\${boardId}_comment\\${postId}.json`)
 
   const boardListData = jsonDataStore.jsonDataMap[boardListKey]?.data
-  const posts = boardListData?.['_embedded']['posts']
+  const posts = boardListData?._embedded.posts
   const post = posts?.find(post => post.postId === postId)
-  const commentListData = jsonDataStore.jsonDataMap[commentKey]?.data
-  const comments = commentListData?.['_embedded']['postComments']
 
   const title = post?.postTitle
   const posted = post?.posted ? format(new Date(post.posted), "yyyy-MM-dd HH:mm:ss") : ''
@@ -45,7 +43,7 @@ const PostActiveView = observer(({justId, layoutId}: Props) => {
 
   useEffect(() => {
     window.api.addWatchPath([boardListKey, commentKey])
-  }, [])
+  }, [boardListKey, commentKey])
 
   const openBoard = () => {
     const postId = boardStore.post?.postId
@@ -68,8 +66,16 @@ const PostActiveView = observer(({justId, layoutId}: Props) => {
         <div className="post-title"><Icon icon={faClone} onClick={() => openBoard()}/><strong>{title}</strong></div>
         <div className="post-content">
           <div className="post-html" dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
-          {(boardStore.post) && <PostAttachList boardId={boardStore.post.boardId} postId={boardStore.post.postId} files={post?.files} />}
-          {(boardStore.post) && <CommentList boardId={boardStore.post.boardId} postId={boardStore.post.postId} comments={comments}/>}
+            <CommentList
+              boardId={boardStore.post.boardId}
+              postId={boardStore.post.postId}
+              commentKey={commentKey}
+              // comments={jsonDataStore.jsonDataMap[commentKey]?.data._embedded.postComments}
+            />
+            <PostAttachList
+                boardId={boardStore.post.boardId}
+                postId={boardStore.post.postId} files={post?.files}
+            />
         </div>
     </div>
   )

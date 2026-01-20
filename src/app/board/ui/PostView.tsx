@@ -37,8 +37,13 @@ const postView = observer(({justId, layoutId: _layoutId}: Props) => {
   const userName = post?.writeUser.userName
 
   useEffect(() => {
-    window.api.addWatchPath([boardListKey, commentKey])
-  }, [])
+    if (commentKey) {
+      window.api.addWatchPath([commentKey])
+    }
+    if (boardListKey) {
+      window.api.addWatchPath([boardListKey])
+    }
+  }, [commentKey, boardListKey])
 
   return (
     <div className="post-active-view">
@@ -46,8 +51,13 @@ const postView = observer(({justId, layoutId: _layoutId}: Props) => {
         <div className="post-title"><strong>{title}</strong></div>
         <div className="post-content">
             <div className="post-html" dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
+            <CommentList
+              boardId={boardId}
+              postId={postId}
+              commentKey={commentKey}
+             // comments={jsonDataStore.jsonDataMap[commentKey]?.data._embedded.postComments}
+            />
             <PostAttachList boardId={boardId} postId={postId} files={post?.files} />
-            <CommentList boardId={boardId} postId={postId} comments={comments}/>
         </div>
     </div>
   )

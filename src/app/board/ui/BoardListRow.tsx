@@ -8,6 +8,7 @@ import {CONTENTS_VIEW} from "@/app/layout/layout.tsx";
 import {useJustLayoutStore} from "@/app/components/just-layout/useJustLayoutStore.ts";
 import useBoardStore from "@/app/board/useBoardStore.ts";
 import {BOARD_ID} from "@/app/board/board.constants.ts";
+import classNames from "classnames";
 
 interface Props {
   count: number
@@ -41,7 +42,7 @@ const BoardListRow = ({
   return (
     <Observer>
       {() => (
-        <div className="board-list-row" style={style} onClick={clickPost}>
+        <div className={classNames("board-list-row", {"active": boardStore.post?.postId === row?.postId})} style={style} onClick={clickPost}>
           <div className="row-no">{no}</div>
           <div className="row-title">{title}</div>
         </div>

@@ -146,7 +146,7 @@ const JustWinTitleView = observer(({layoutId, isFullScreenView, dndAccept, justB
       <div className={classNames("just-title-list", {"is-over": isOver})} ref={ref}>
         {justStack.tabs.map(justId =>
           <JustDraggableTitle
-            // key={[...justBranch, JustUtil.toString(justId)].join(",")}
+            key={[...justBranch, JustUtil.toString(justId)].join(",")}
             layoutId={layoutId}
             isFullScreenView={isFullScreenView}
             dndAccept={dndAccept}

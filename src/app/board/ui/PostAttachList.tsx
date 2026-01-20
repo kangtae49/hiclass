@@ -19,14 +19,14 @@ const PostAttachList = observer(({boardId, postId, files}: Props) => {
     <div>
       <div>첨부파일({files?.length || 0})</div>
       {files?.map((file, index) => (
-        <div key={index}>
+        <div key={file.seq}>
         {file.fileContentType.startsWith("image/") ? (
-          <div onClick={clickFile(boardId, postId, file.fileOriginalPath)}>
-            {file.fileName}
+          <div>
+            <span onClick={clickFile(boardId, postId, file.fileOriginalPath)}>{file.fileName}</span>
           </div>
         ) : (
-          <div onClick={clickFile(boardId, postId, file.fileTranscodePath)}>
-            {file.fileName}
+          <div>
+            <span onClick={clickFile(boardId, postId, file.fileTranscodePath)}>{file.fileName}</span>
           </div>
         )}
         </div>

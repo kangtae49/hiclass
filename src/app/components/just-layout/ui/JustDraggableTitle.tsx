@@ -19,6 +19,7 @@ export interface JustDragItem {
 }
 
 interface Prop {
+  key: string
   layoutId: string
   isFullScreenView: boolean
   dndAccept: string[]
