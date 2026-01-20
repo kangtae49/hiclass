@@ -46,7 +46,7 @@ const postView = observer(({justId, layoutId: _layoutId}: Props) => {
         <div className="post-title"><strong>{title}</strong></div>
         <div className="post-content">
             <div className="post-html" dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
-            <PostAttachList boardId={boardId!} postId={postId!} files={post?.files} />
+            <PostAttachList boardId={boardId} postId={postId} files={post?.files} />
             <CommentList boardId={boardId} postId={postId} comments={comments}/>
         </div>
     </div>
