@@ -68,8 +68,8 @@ const PostActiveView = observer(({justId, layoutId}: Props) => {
         <div className="post-title"><Icon icon={faClone} onClick={() => openBoard()}/><strong>{title}</strong></div>
         <div className="post-content">
           <div className="post-html" dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
-          <PostAttachList boardId={boardId!} postId={postId!} files={post?.files} />
-          <CommentList boardId={boardId} postId={postId} comments={comments}/>
+          {(!!boardId && !!postId) && <PostAttachList boardId={boardId} postId={postId} files={post?.files} />}
+          {(!!boardId && !!postId) && <CommentList boardId={boardId} postId={postId} comments={comments}/>}
         </div>
     </div>
   )
