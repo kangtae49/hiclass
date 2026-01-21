@@ -4,34 +4,34 @@ import PostAttachList from "@/app/board/ui/PostAttachList.tsx";
 import {format} from "date-fns";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
-import CommentReplyList from "@/app/board/ui/CommentReplyList.tsx";
-import pathUtils from "@/utils/pathUtils.ts";
 
 interface Props {
   boardId: string
-  postId: string
-  commentKey: string
+  commentId: string
+  replyKey: string
   // comments: any []
 }
 
-const CommentList = observer(({boardId, postId, commentKey}: Props) => {
+const CommentReplyList = observer(({boardId, commentId, replyKey}: Props) => {
   const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
   // const commentKey = pathUtils.getScriptSubPath(`data\\${boardId}_comment\\${postId}.json`)
-  const data = jsonDataStore.jsonDataMap[commentKey]?.data
+  const data = jsonDataStore.jsonDataMap[replyKey]?.data
   const comments = data?._embedded?.postComments
   // console.log(comments)
-  console.log('CommentList', boardId, postId, commentKey)
+  console.log('CommentList', boardId, commentId, replyKey)
   useEffect(() => {
-    if (commentKey) {
-      window.api.addWatchPath([commentKey])
+    if (replyKey) {
+      window.api.addWatchPath([replyKey])
     }
-  }, [commentKey])
+  }, [replyKey])
 
   return (
-    <div className="comment-list">
-      <div>
-        댓글 {comments?.length || 0}
-      </div>
+    <div className="comment-reply-list">
+      {comments?.length > 0 &&
+        (
+          <div>답글 {comments?.length || 0}</div>
+        )
+      }
       {comments?.map((comment, index) => (
         <div key={index} className="comment">
           <div className="comment-title">
@@ -42,14 +42,10 @@ const CommentList = observer(({boardId, postId, commentKey}: Props) => {
           <div className="comment-content">
             {comment.comment}
           </div>
-          <PostAttachList boardId={boardId} postId={postId} files={comment.files} />
-          {comment.reactions && (
-            <CommentReplyList boardId={boardId} commentId={comment.currentId} replyKey={pathUtils.getScriptSubPath(`data\\${boardId}_comment\\${comment.currentId}.json`)} />
-          )}
         </div>
       ))}
     </div>
   )
 })
 
-export default CommentList;
+export default CommentReplyList;
