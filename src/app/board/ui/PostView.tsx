@@ -26,7 +26,7 @@ const postView = observer(({justId, layoutId: _layoutId}: Props) => {
   const boardListData = jsonDataStore.jsonDataMap[boardListKey]?.data
   const posts = boardListData?.['_embedded']['posts']
   const post = posts?.find(post => post.postId === postId)
-  const commentListData = jsonDataStore.jsonDataMap[commentKey]?.data
+  // const commentListData = jsonDataStore.jsonDataMap[commentKey]?.data
   // const comments = commentListData?.['_embedded']['postComments']
 
   const title = post?.postTitle

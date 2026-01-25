@@ -59,14 +59,14 @@ const App = observer(() => {
 
   }, [])
 
-  const closeWin = (justId: JustId) => {
-    console.log('closeWin!!!', justId)
-  }
-  const onClickTitle = (_e: React.MouseEvent, _justId: JustId) => {
-  }
-  const onDoubleClickTitle = (_e: React.MouseEvent, _justId: JustId) => {
-    // justLayoutStore.toggleWin({nodeName: SIDE_MENU_NODE_NAME})
-  }
+  // const closeWin = (justId: JustId) => {
+  //   console.log('closeWin!!!', justId)
+  // }
+  // const onClickTitle = (_e: React.MouseEvent, _justId: JustId) => {
+  // }
+  // const onDoubleClickTitle = (_e: React.MouseEvent, _justId: JustId) => {
+  //   // justLayoutStore.toggleWin({nodeName: SIDE_MENU_NODE_NAME})
+  // }
 
   return (
     <>
