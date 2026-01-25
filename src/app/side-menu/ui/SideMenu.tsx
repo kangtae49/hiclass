@@ -1,21 +1,19 @@
 import "./SideMenu.css"
 import Jdenticon from "react-jdenticon";
 import IconMinimize from "@/assets/minimize.svg?react"
-import {JustUtil} from "@/app/components/just-layout/justUtil.ts";
 import {CONTENTS_VIEW, SIDE_MENU_NODE_NAME} from "@/app/layout/layout";
-import {useJustLayoutStore} from "@/app/components/just-layout/useJustLayoutStore.ts";
-import {JustId} from "@/app/components/just-layout/justLayout.types.ts";
 import {observer} from "mobx-react-lite";
 import pathUtils from "@/utils/pathUtils.ts";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
-import {useEffect} from "react";
+import {useCallback, useEffect} from "react";
+import {JustId, JustUtil, useJustLayoutStore} from "@kangtae49/just-layout";
 
 interface Props {
   justId: JustId
   layoutId: string
 }
-const SideMenu = observer(({justId: _justId, layoutId}: Props) => {
+const SideMenu = observer(({layoutId}: Props) => {
   const justLayoutStore = useJustLayoutStore(layoutId)
   const boardListKey = pathUtils.getScriptSubPath("data\\board_list.json")
   const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
@@ -24,11 +22,11 @@ const SideMenu = observer(({justId: _justId, layoutId}: Props) => {
     justLayoutStore.toggleWin({nodeName: SIDE_MENU_NODE_NAME})
   }
 
-  const openBoard = (board: {boardId: string, boardNm: string}) => {
-    const justId: JustId = {viewId: "board-list-view", title: board.boardNm, params: board}
-    console.log('openBoard', justId)
-    justLayoutStore.openWinByNodeName({justId, nodeName: CONTENTS_VIEW})
-  }
+  const openBoard = useCallback((board: {boardId: string, boardNm: string}) => {
+    const boardJustId: JustId = {viewId: "board-list-view", title: board.boardNm, params: board}
+    console.log('openBoard', boardJustId)
+    justLayoutStore.openWinByNodeName({justId: boardJustId, nodeName: CONTENTS_VIEW})
+  }, [justLayoutStore])
   // const openWin = (justId: JustId) => {
   //   justLayoutStore.openWinMenu({justId, nodeName: CONTENTS_VIEW})
   // }

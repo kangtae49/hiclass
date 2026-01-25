@@ -1,6 +1,4 @@
 import {useEffect} from "react";
-import useGridDataStore from "@/app/grid-data/useGridDataStore.ts";
-import {GRID_DATA_ID} from "@/app/grid-data/gridData.constants.ts";
 import {observer} from "mobx-react-lite";
 import {EXCALIDRAW_DATA_ID} from "@/app/excalidraw-data/excalidrawData.constants.ts";
 import {useExcalidrawDataStore} from "@/app/excalidraw-data/useExcalidrawDataStore.ts";
@@ -10,12 +8,9 @@ import {retryWithBackoff} from "@/utils/asyncUtils.ts";
 import {ExcalidrawData} from "@/app/excalidraw-data/excalidrawData.types.ts";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
-// import {retryWithBackoff} from "@/utils/asyncUtils.ts";
-// import {ExcalidrawData} from "@/app/excalidraw-data/excalidrawData.types.ts";
 
 const WatchListener = observer((): null => {
 
-  const gridDataStore = useGridDataStore(GRID_DATA_ID)
   const excalidrawDataStore = useExcalidrawDataStore(EXCALIDRAW_DATA_ID)
   const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
 
@@ -33,7 +28,6 @@ const WatchListener = observer((): null => {
         const dataKey = pathUtils.join(keyDir, orgKeyName)
         const isLocked = watchFile.status !== 'DELETED'
         console.log('isLocked', dataKey, isLocked)
-        gridDataStore.updateIsLocked({key: dataKey, isLocked})
       } else {
         if (watchFile.status === 'CREATED' || watchFile.status === 'MODIFIED') {
           if (watchFile.path.toLowerCase().endsWith('.excalidraw')) {
@@ -52,13 +46,6 @@ const WatchListener = observer((): null => {
               }
             })
 
-          } else if (watchFile.path.toLowerCase().endsWith('.xlsx')) {
-            window.api.readExcel(watchFile.path)
-              .then((gridData) => {
-                if (gridData) {
-                  gridDataStore.updateGridData(gridData)
-                }
-              })
           } else if (watchFile.path.toLowerCase().endsWith('.json')) {
             window.api.readJson(watchFile.path)
               .then((jsonData) => {
@@ -77,12 +64,6 @@ const WatchListener = observer((): null => {
               path: watchFile.path,
               data: {} as ExcalidrawState
             })
-          } else if (watchFile.path.toLowerCase().endsWith('.xlsx')) {
-            gridDataStore.updateGridData({
-              path: watchFile.path,
-              header: [],
-              data: []
-            })
           } else if (watchFile.path.toLowerCase().endsWith('.json')) {
             jsonDataStore.updateJsonData({
               path: watchFile.path,
@@ -94,7 +75,7 @@ const WatchListener = observer((): null => {
 
 
     })
-  }, [gridDataStore, excalidrawDataStore])
+  }, [excalidrawDataStore])
   return null
 })
 

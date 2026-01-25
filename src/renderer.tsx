@@ -38,20 +38,16 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css';
 import App from './App'
-// import { toJS } from 'mobx';
-// (window as any).toJS = toJS;
-
-// import {container} from "@/inversify.config.ts";
-// if (process.env.NODE_ENV === 'development') {
-//   (window as any).container = container;
-//   (window as any).toJS = toJS;
-// }
+import {container} from "@/inversify.config.ts";
+import {Provider} from "inversify-react";
 
 console.log(
   '👋 This message is being logged by "renderer.ts", included via Vite',
 );
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <Provider container={container}>
+      <App />
+    </Provider>
   </StrictMode>,
 )

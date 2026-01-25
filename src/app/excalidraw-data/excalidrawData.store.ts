@@ -1,8 +1,8 @@
 import { injectable, inject } from "inversify";
-import {EXCALIDRAW_DATA_TYPES, ExcalidrawData, ExcalidrawDataMap} from "./excalidrawData.types";
+import {ExcalidrawData, ExcalidrawDataMap} from "./excalidrawData.types";
 import { ExcalidrawDataService } from "./excalidrawData.service.ts";
 import {makeAutoObservable} from "mobx";
-import {GridDataPlayloadIsLocked} from "@/app/grid-data/gridData.store.ts";
+import {EXCALIDRAW_DATA_TYPES} from "@/app/excalidraw-data/excalidrawData.constants.ts";
 
 @injectable()
 export class ExcalidrawDataStore {
@@ -33,16 +33,4 @@ export class ExcalidrawDataStore {
     }
   }
 
-  updateIsLocked = (payload: GridDataPlayloadIsLocked) => {
-    const existing = this.excalidrawDataMap[payload.key] || {};
-    const newExcalidrawData: ExcalidrawData = {
-      ...existing,
-      isLocked: payload.isLocked
-    } as ExcalidrawData
-
-    this.excalidrawDataMap = {
-      ...this.excalidrawDataMap,
-      [payload.key]: newExcalidrawData
-    }
-  }
 }

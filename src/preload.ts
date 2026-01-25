@@ -1,10 +1,8 @@
 // See the Electron documentation for details on how to use preload scripts:
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
-import "reflect-metadata";
+// import "reflect-metadata";
 import {contextBridge, ipcRenderer, webUtils } from 'electron'
 import {DragStartItem, Env, WatchEvent, DialogResult, AppInfo} from "@/types.ts";
-import {GridData} from "@/app/grid-data/gridData.types.ts";
-import {JobEvent} from "@/app/job/jobMonitor.types.ts";
 import * as Electron from "electron";
 import {ExcalidrawData} from "@/app/excalidraw-data/excalidrawData.types.ts";
 import {JsonData} from "@/app/json-data/jsonData.types.ts";
@@ -29,7 +27,6 @@ export interface Api {
   unWatchPath: (watchPath: string[]) => Promise<void>
 
   getPathForFile(file: File): string
-  readExcel(filePath: string): Promise<GridData | null>
   readExcalidraw(filePath: string): Promise<ExcalidrawData | null>
   readJson(filePath: string): Promise<JsonData | null>
   startFile(filePath: string): Promise<void>
@@ -42,7 +39,6 @@ export interface Api {
   unmaximize(): void
   close(): void
 
-  onJobEvent(callback: (event: Electron.IpcRendererEvent, data: JobEvent) => void): void
   onWatchEvent(callback: (event: Electron.IpcRendererEvent, data: WatchEvent) => void): void
 
   onSuspend(callback: (event: Electron.IpcRendererEvent) => void): void
@@ -93,9 +89,6 @@ const getApi = async (): Promise<Api> => {
     unWatchPath: (watchPath): Promise<void> => {
       return ipcRenderer.invoke('un-watch-path', watchPath)
     },
-    readExcel(filePath: string): Promise<GridData | null> {
-      return ipcRenderer.invoke('read-excel', filePath);
-    },
     readExcalidraw(filePath: string): Promise<ExcalidrawData | null> {
       return ipcRenderer.invoke('read-excalidraw', filePath);
     },
@@ -131,10 +124,6 @@ const getApi = async (): Promise<Api> => {
     },
     close() {
       ipcRenderer.send('window-close')
-    },
-    onJobEvent(callback: (event: Electron.IpcRendererEvent, data: JobEvent) => void) {
-      ipcRenderer.removeAllListeners('on-job-event');
-      ipcRenderer.on('on-job-event', callback)
     },
     onWatchEvent(callback: (event: Electron.IpcRendererEvent, data: WatchEvent) => void) {
       ipcRenderer.removeAllListeners('on-watch-event');

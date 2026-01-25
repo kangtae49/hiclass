@@ -4,15 +4,12 @@ import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
 import {faBars, faGear, faPen} from "@fortawesome/free-solid-svg-icons"
 import {Menu, MenuItem} from "@szhsin/react-menu";
 import Jdenticon from "react-jdenticon";
-import {JustUtil} from "@/app/components/just-layout/justUtil.ts";
 import {
   aboutId, CONTENTS_VIEW, excalidrawViewId,
   INIT_SIDE_MENU_SIZE,
   SIDE_MENU_NODE_NAME, ViewId,
   viewMap
 } from "@/app/layout/layout.tsx";
-import {useJustLayoutStore} from "@/app/components/just-layout/useJustLayoutStore.ts";
-import {JustId} from "@/app/components/just-layout/justLayout.types.ts";
 import {observer} from "mobx-react-lite";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
@@ -20,6 +17,7 @@ import {useEffect} from "react";
 import pathUtils from "@/utils/pathUtils.ts";
 import {BOARD_ID} from "@/app/board/board.constants.ts";
 import useBoardStore from "@/app/board/useBoardStore.ts";
+import {JustId, JustUtil, useJustLayoutStore} from "@kangtae49/just-layout";
 
 interface Props {
   justId: JustId
@@ -103,7 +101,7 @@ const JustToolBar = observer(({justId: _justId, layoutId}: Props) => {
           {/*</MenuItem>*/}
           <MenuItem className="just-menu-item" onClick={() => openWin(aboutId)}>
             <div className="just-icon">
-              {viewMap[aboutId.viewId as ViewId].getIcon(aboutId, layoutId)}
+              {viewMap[aboutId.viewId as ViewId].getTabIcon(aboutId, layoutId)}
             </div>
             <div className="just-title">
               {aboutId.title}

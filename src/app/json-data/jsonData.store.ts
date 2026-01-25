@@ -1,7 +1,8 @@
 import {inject, injectable} from "inversify";
 import {makeAutoObservable} from "mobx";
-import {JSON_DATA_TYPES, JsonData, JsonDataMap} from "./jsonData.types.ts";
+import {JsonData, JsonDataMap} from "./jsonData.types.ts";
 import {JsonDataService} from "./jsonData.service.ts";
+import {JSON_DATA_TYPES} from "@/app/json-data/jsonData.constants.ts";
 
 export interface JsonDataPlayloadIsLocked {
   key: string

@@ -1,5 +1,4 @@
 import {observer} from "mobx-react-lite";
-import {JustId} from "@/app/components/just-layout/justLayout.types.ts";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
 import pathUtils from "@/utils/pathUtils.ts";
@@ -8,7 +7,7 @@ import {replaceUrl} from "@/utils/htmlUtils.ts";
 import {useEffect} from "react";
 import PostAttachList from "@/app/board/ui/PostAttachList.tsx";
 import CommentList from "@/app/board/ui/CommentList.tsx";
-import {JustUtil} from "@/app/components/just-layout/justUtil.ts";
+import {JustId, JustUtil} from "@kangtae49/just-layout";
 
 interface Props {
   justId: JustId

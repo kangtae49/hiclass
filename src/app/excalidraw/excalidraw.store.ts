@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import {EXCALIDRAW_TYPES} from "./excalidraw.types";
+import {EXCALIDRAW_TYPES} from "./excalidraw.constants.ts";
 import { ExcalidrawService } from "./excalidraw.service";
 import {makeAutoObservable} from "mobx";
 import {OrderedExcalidrawElement} from "@excalidraw/excalidraw/element/types";

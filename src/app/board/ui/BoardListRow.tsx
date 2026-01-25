@@ -3,12 +3,11 @@ import {Observer} from "mobx-react-lite";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
 import pathUtils from "@/utils/pathUtils.ts";
-import {JustId} from "@/app/components/just-layout/justLayout.types.ts";
 import {CONTENTS_VIEW} from "@/app/layout/layout.tsx";
-import {useJustLayoutStore} from "@/app/components/just-layout/useJustLayoutStore.ts";
 import useBoardStore from "@/app/board/useBoardStore.ts";
 import {BOARD_ID} from "@/app/board/board.constants.ts";
 import classNames from "classnames";
+import {JustId, useJustLayoutStore} from "@kangtae49/just-layout";
 
 interface Props {
   count: number

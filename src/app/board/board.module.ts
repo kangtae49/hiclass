@@ -1,23 +1,24 @@
-import { ContainerModule, Factory  } from "inversify";
-import {container, storeCache} from "@/inversify.config.ts";
-import {BOARD_TYPES} from "./board.types.ts";
+import {ContainerModule, Factory, ResolutionContext} from "inversify";
 import {BoardStore} from "./board.store.ts";
 import {BoardService} from "./board.service.ts";
-
+import {BOARD_TYPES} from "./board.constants.ts";
 
 
 export const boardModule = new ContainerModule(({bind}) => {
   bind(BOARD_TYPES.BoardService).to(BoardService).inSingletonScope();
   bind(BOARD_TYPES.BoardStore).to(BoardStore).inTransientScope();
 
+  bind<Map<string, BoardStore>>(BOARD_TYPES.BoardStoreCacheMap).toConstantValue(new Map());
   bind<Factory<BoardStore>>(BOARD_TYPES.BoardFactory)
-    .toFactory((_context) => {
+    .toFactory((context: ResolutionContext) => {
+      const cacheMap = context.get<Map<string, BoardStore>>(BOARD_TYPES.BoardStoreCacheMap);
+
       return (id: string) => {
-        if (!storeCache.has(id)) {
-          const newStore = container.get<BoardStore>(BOARD_TYPES.BoardStore);
-          storeCache.set(id, newStore);
+        if (!cacheMap.has(id)) {
+          const newStore = context.get<BoardStore>(BOARD_TYPES.BoardStore);
+          cacheMap.set(id, newStore);
         }
-        return storeCache.get(id)!;
+        return cacheMap.get(id)!;
       }
     })
 });

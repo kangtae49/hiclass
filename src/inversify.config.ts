@@ -1,31 +1,18 @@
 import "reflect-metadata";
-import {Container,
-  // ContainerModule
-} from "inversify";
-import { counterModule } from "./app/counter/counter.module.ts";
-// import { toJS } from 'mobx';
-import {gridDataModule} from "@/app/grid-data/gridData.module.ts";
-import {jobMonitorModule} from "@/app/job/jobMonitor.module.ts";
-import {pageModule} from "@/app/page/page.module.ts";
-import {justLayoutModule} from "@/app/components/just-layout/justLayout.module.ts";
-import {appModule} from "@/app/listeners/app.module.ts";
+import {Container} from "inversify";
 import {excalidrawModule} from "@/app/excalidraw/excalidraw.module.ts";
 import {excalidrawDataModule} from "@/app/excalidraw-data/excalidrawData.module.ts";
 import {toJS} from "mobx";
 import {jsonDataModule} from "@/app/json-data/jsonData.module.ts";
 import {boardModule} from "@/app/board/board.module.ts";
+import {justLayoutModule} from "@kangtae49/just-layout";
 
 const container = new Container();
 
 
 const appModules = [
-  appModule,
   justLayoutModule,
-  counterModule,
-  gridDataModule,
   jsonDataModule,
-  jobMonitorModule,
-  pageModule,
   boardModule,
   excalidrawModule,
   excalidrawDataModule,
@@ -34,7 +21,7 @@ container.load(
   ...appModules
 );
 
-const storeCache = new Map<string, any>();
+// const storeCache = new Map<string, any>();
 
 
 // if (process.env.NODE_ENV === 'development') {
@@ -47,9 +34,9 @@ const storeCache = new Map<string, any>();
 //   return container.get(Symbol.for(facId))(storeId)
 // }
 
-(window as any).storeCache = storeCache;
+// (window as any).storeCache = storeCache;
 (window as any).toJS = toJS;
 // toJS(storeCache.get('LAYOUT_ID').layout)
 
 
-export { container, storeCache};
+export { container };

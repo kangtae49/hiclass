@@ -1,6 +1,6 @@
 import {inject, injectable} from "inversify";
 import {makeAutoObservable} from "mobx";
-import {BOARD_TYPES} from "./board.types.ts";
+import {BOARD_TYPES} from "./board.constants.ts";
 import {BoardService} from "./board.service.ts";
 
 interface Post {

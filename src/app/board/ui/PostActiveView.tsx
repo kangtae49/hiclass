@@ -1,6 +1,5 @@
 import "./PostActiveView.css"
 import {observer} from "mobx-react-lite";
-import {JustId} from "@/app/components/just-layout/justLayout.types.ts";
 import useBoardStore from "@/app/board/useBoardStore.ts";
 import {BOARD_ID} from "@/app/board/board.constants.ts";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
@@ -14,7 +13,7 @@ import {format} from "date-fns";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
 import {faClone} from "@fortawesome/free-solid-svg-icons";
 import {CONTENTS_VIEW} from "@/app/layout/layout.tsx";
-import {useJustLayoutStore} from "@/app/components/just-layout/useJustLayoutStore.ts";
+import {JustId, useJustLayoutStore} from "@kangtae49/just-layout";
 
 interface Props {
   justId: JustId

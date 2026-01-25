@@ -11,8 +11,4 @@ export type JsonDataMap = Record<string, JsonData>
 
 export type JsonDataFactory = (id: string) => JsonDataStore;
 
-export const JSON_DATA_TYPES = {
-  JsonDataService: Symbol("JsonDataService"),
-  JsonDataStore: Symbol("JsonDataStore"),
-  JsonDataFactory: Symbol("JsonDataFactory"),
-}
+

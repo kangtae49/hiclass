@@ -1,10 +1,12 @@
 import {useState} from "react";
-import {BOARD_TYPES, BoardFactory} from "./board.types.ts";
-import {container} from "@/inversify.config.ts";
+import {type BoardFactory} from "./board.types.ts";
+import {useInjection} from "inversify-react";
+import {BOARD_TYPES} from "./board.constants.ts";
 
 function useBoardStore(id: string) {
+  const factory = useInjection<BoardFactory>(BOARD_TYPES.BoardFactory);
+
   const [store] = useState(() => {
-    const factory = container.get<BoardFactory>(BOARD_TYPES.BoardFactory);
     return factory(id);
   })
 

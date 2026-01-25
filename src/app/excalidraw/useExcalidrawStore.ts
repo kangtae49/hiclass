@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { container } from "@/inversify.config";
-import { EXCALIDRAW_TYPES, ExcalidrawFactory } from "./excalidraw.types";
+import { ExcalidrawFactory } from "./excalidraw.types";
+import {EXCALIDRAW_TYPES} from "@/app/excalidraw/excalidraw.constants.ts";
+import {useInjection} from "inversify-react";
 
 export const useExcalidrawStore = (id: string) => {
+  const factory = useInjection<ExcalidrawFactory>(EXCALIDRAW_TYPES.ExcalidrawFactory);
   const [store] = useState(() => {
-    const factory = container.get<ExcalidrawFactory>(EXCALIDRAW_TYPES.ExcalidrawFactory);
     return factory(id);
   });
 

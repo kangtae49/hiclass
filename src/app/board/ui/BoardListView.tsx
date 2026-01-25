@@ -1,13 +1,12 @@
 import "./BoardListView.css"
 import {observer} from "mobx-react-lite";
-import {JustId} from "@/app/components/just-layout/justLayout.types.ts";
 import {List} from "react-window";
 import BoardListRow from "@/app/board/ui/BoardListRow.tsx";
-import {JustUtil} from "@/app/components/just-layout/justUtil.ts";
 import pathUtils from "@/utils/pathUtils.ts";
 import {useEffect} from "react";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
+import {JustId, JustUtil} from "@kangtae49/just-layout";
 
 interface Props {
   justId: JustId
