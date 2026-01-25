@@ -6,7 +6,8 @@ import React, {useEffect} from "react";
 import {observer} from "mobx-react-lite";
 import KeyDownListener from "@/app/listeners/KeyDownListener.tsx";
 import {EXCALIDRAW_DATA_KEYS} from "@/app/excalidraw-data/excalidrawData.constants.ts";
-import type {JustId, JustUtil, WinInfo} from "@kangtae49/just-layout";
+import type {JustId, WinInfo} from "@kangtae49/just-layout";
+import {JustUtil} from "@kangtae49/just-layout";
 import {JustLayoutView} from "@kangtae49/just-layout";
 import {initialLayoutValue, LAYOUT_ID, ViewId, viewMap} from "@/app/layout/layout.tsx";
 

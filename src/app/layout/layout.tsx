@@ -76,7 +76,7 @@ export const excalidrawViewId: JustId = {viewId: 'excalidraw-view', title: 'Exca
 
 export const viewMap: Record<ViewId, WinInfo> = {
   "top-menu": {
-    getTabIcon: (justId, layoutId) => <div />,
+    getTabIcon: () => <div />,
     getView: (justId, layoutId) => {
       return (
         <TopMenuBar justId={justId} layoutId={layoutId}/>
@@ -124,7 +124,7 @@ export const viewMap: Record<ViewId, WinInfo> = {
     }
   },
   "board-list-view": {
-    getTabIcon: (justId, layoutId) => <Jdenticon size="30" value={JustUtil.getParamString(justId, "boardNm")} />,
+    getTabIcon: (justId) => <Jdenticon size="30" value={JustUtil.getParamString(justId, "boardNm")} />,
     getView: (justId, layoutId) => {
       return (
         <BoardListView justId={justId} layoutId={layoutId} />

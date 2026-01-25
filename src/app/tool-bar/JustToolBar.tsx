@@ -15,8 +15,6 @@ import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
 import {useEffect} from "react";
 import pathUtils from "@/utils/pathUtils.ts";
-import {BOARD_ID} from "@/app/board/board.constants.ts";
-import useBoardStore from "@/app/board/useBoardStore.ts";
 import {JustId, JustUtil, useJustLayoutStore} from "@kangtae49/just-layout";
 
 interface Props {

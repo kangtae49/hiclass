@@ -27,7 +27,7 @@ const postView = observer(({justId, layoutId: _layoutId}: Props) => {
   const posts = boardListData?.['_embedded']['posts']
   const post = posts?.find(post => post.postId === postId)
   const commentListData = jsonDataStore.jsonDataMap[commentKey]?.data
-  const comments = commentListData?.['_embedded']['postComments']
+  // const comments = commentListData?.['_embedded']['postComments']
 
   const title = post?.postTitle
   const posted = post?.posted ? format(new Date(post.posted), "yyyy-MM-dd HH:mm:ss") : ''

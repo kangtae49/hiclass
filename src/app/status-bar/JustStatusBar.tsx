@@ -10,7 +10,7 @@ interface Props {
   justId: JustId
   layoutId: string
 }
-const JustStatusBar = observer(({justId: _justId, layoutId}: Props) => {
+const JustStatusBar = observer(({justId: _justId}: Props) => {
   // const justLayoutStore = useJustLayoutStore(layoutId)
 
 
