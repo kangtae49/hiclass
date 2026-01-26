@@ -3,7 +3,7 @@ import {observer} from "mobx-react-lite";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
 import {faCircleXmark, faClone, faExpand} from "@fortawesome/free-solid-svg-icons";
 import {ControlledMenu, MenuItem, MenuState} from "@szhsin/react-menu";
-import {JustBranch, JustId, JustUtil, useJustLayoutStore, WinInfo} from "@kangtae49/just-layout";
+import {JustBranch, JustId, useJustLayoutStore, WinInfo} from "@kangtae49/just-layout";
 import {CONTENTS_VIEW} from "@/app/layout/layout.tsx";
 import useBoardStore from "@/app/board/useBoardStore.ts";
 import {BOARD_ID} from "@/app/board/board.constants.ts";
