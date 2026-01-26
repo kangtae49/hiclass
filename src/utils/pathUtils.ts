@@ -27,6 +27,15 @@ const pathUtils = {
     const fileName = this.basename(filePath)
     const dirName = this.dirname(filePath)
     return this.join(dirName, SEP, `~$${fileName}`)
+  },
+  getLocalSrc(filePath: string): string {
+    const isPackaged = window.api.appInfo.versions.isPackaged
+    if (isPackaged) {
+      return filePath
+    } else {
+      const encodedPath = encodeURIComponent(filePath);
+      return `http://localhost:5173/http_get?path=${encodedPath}`
+    }
   }
 };
 

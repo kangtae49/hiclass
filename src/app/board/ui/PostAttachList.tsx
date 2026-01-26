@@ -2,6 +2,7 @@ import {observer} from "mobx-react-lite";
 import pathUtils from "@/utils/pathUtils.ts";
 import {useState} from "react";
 import classNames from "classnames";
+import PreviewMedia from "@/app/board/ui/PreviewMedia.tsx";
 
 interface Props {
   boardId: string
@@ -28,17 +29,20 @@ const PostAttachList = observer(({boardId, postId, files, isShowAttach}: Props) 
       <div onClick={toggleAttach}>첨부파일({files?.length || 0})</div>
       <div className={classNames("attach-list", {"hide": !showAttach})}>
         {files?.map((file) => (
-        <div key={file.seq}>
-        {file.fileContentType.startsWith("image/") ? (
-          <div>
-            <span onClick={clickFile(boardId, postId, file.fileOriginalPath)}>{file.fileName}</span>
-          </div>
-        ) : (
-          <div>
-            <span onClick={clickFile(boardId, postId, file.fileTranscodePath)}>{file.fileName}</span>
-          </div>
-        )}
-        </div>
+          <PreviewMedia key={file.seq} boardId={boardId} postId={postId} file={file} />
+        // <div key={file.seq}>
+        // {file.fileContentType.startsWith("image/") ? (
+        //   <div>
+        //     <span onClick={clickFile(boardId, postId, file.fileOriginalPath)}>
+        //       <PreviewMedia boardId={boardId} postId={postId} file={file} />
+        //     </span>
+        //   </div>
+        // ) : (
+        //   <div>
+        //     <span onClick={clickFile(boardId, postId, file.fileTranscodePath)}>{file.fileName}</span>
+        //   </div>
+        // )}
+        // </div>
       ))}
       </div>
     </div>
