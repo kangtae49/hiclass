@@ -15,6 +15,7 @@ import PostView from "@/app/board/ui/PostView.tsx";
 import PostActiveView from "@/app/board/ui/PostActiveView.tsx";
 import BoardListView from "@/app/board/ui/BoardListView.tsx";
 import {JustId, JustNode, JustSplitPixels, JustUtil, WinInfo} from "@kangtae49/just-layout";
+import TabTitle from "@/app/layout/TabTitle.tsx";
 
 
 export const LAYOUT_ID = "LAYOUT_ID"
@@ -140,6 +141,7 @@ export const viewMap: Record<ViewId, WinInfo> = {
     }
   },
   "post-active-view": {
+    getTabTitle: (props) => <TabTitle {...props} />,
     getTabIcon: () => <Jdenticon size="30" value="post-active-view" />,
     getView: (justId, layoutId) => {
       return (

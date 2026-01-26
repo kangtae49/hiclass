@@ -1,14 +1,22 @@
 import {observer} from "mobx-react-lite";
 import pathUtils from "@/utils/pathUtils.ts";
+import {useState} from "react";
+import classNames from "classnames";
 
 interface Props {
   boardId: string
   postId: string
   files: any[]
+  isShowAttach?: boolean
 }
 
-const PostAttachList = observer(({boardId, postId, files}: Props) => {
+const PostAttachList = observer(({boardId, postId, files, isShowAttach}: Props) => {
   console.log('files.length:', files?.length)
+
+
+  const [showAttach, setShowAttach] = useState(isShowAttach ?? false)
+
+  const toggleAttach = () => setShowAttach(!showAttach)
 
   const clickFile = (boardId: string, postId: string, filePath: string) => () => {
     const fileName = filePath.split('/').pop()
@@ -17,8 +25,9 @@ const PostAttachList = observer(({boardId, postId, files}: Props) => {
   }
   return (files?.length > 0 &&
     <div>
-      <div>첨부파일({files?.length || 0})</div>
-      {files?.map((file, index) => (
+      <div onClick={toggleAttach}>첨부파일({files?.length || 0})</div>
+      <div className={classNames("attach-list", {"hide": !showAttach})}>
+        {files?.map((file) => (
         <div key={file.seq}>
         {file.fileContentType.startsWith("image/") ? (
           <div>
@@ -31,6 +40,7 @@ const PostAttachList = observer(({boardId, postId, files}: Props) => {
         )}
         </div>
       ))}
+      </div>
     </div>
   )
 })

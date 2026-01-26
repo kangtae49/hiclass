@@ -10,6 +10,8 @@ import type {JustId, WinInfo} from "@kangtae49/just-layout";
 import {JustUtil} from "@kangtae49/just-layout";
 import {JustLayoutView} from "@kangtae49/just-layout";
 import {initialLayoutValue, LAYOUT_ID, ViewId, viewMap} from "@/app/layout/layout.tsx";
+import {HTML5Backend} from "react-dnd-html5-backend";
+import {DndProvider} from "react-dnd";
 
 function getWinInfo(justId: JustId): WinInfo {
   const viewId = justId.viewId as ViewId;
@@ -74,11 +76,13 @@ const App = observer(() => {
       <WatchListener />
       <div className="just-app">
         <div className="just-con">
+          <DndProvider backend={ HTML5Backend }>
           <JustLayoutView
             layoutId={layoutId}
             initialValue={initialLayoutValue}
             getWinInfo={getWinInfo}
           />
+          </DndProvider>
         </div>
       </div>
     </>

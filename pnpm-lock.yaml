@@ -21,8 +21,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1(@fortawesome/fontawesome-svg-core@7.1.0)(react@19.2.3)
       '@kangtae49/just-layout':
-        specifier: ^0.0.16
-        version: 0.0.16(@fortawesome/fontawesome-svg-core@7.1.0)(@types/node@24.10.9)(@types/react@19.2.8)(inversify-react@1.2.0(inversify@7.11.0(reflect-metadata@0.2.2))(react@19.2.3))(inversify@7.11.0(reflect-metadata@0.2.2))(mobx-react-lite@4.1.1(mobx@6.15.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(mobx@6.15.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        specifier: ^0.0.21
+        version: 0.0.21(@fortawesome/fontawesome-svg-core@7.1.0)(inversify-react@1.2.0(inversify@7.11.0(reflect-metadata@0.2.2))(react@19.2.3))(inversify@7.11.0(reflect-metadata@0.2.2))(mobx-react-lite@4.1.1(mobx@6.15.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(mobx@6.15.0)(react-dnd-html5-backend@16.0.1)(react-dnd@16.0.1(@types/node@24.10.9)(@types/react@19.2.8)(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@silevis/reactgrid':
         specifier: ^4.1.17
         version: 4.1.17(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -825,14 +825,16 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@kangtae49/just-layout@0.0.16':
-    resolution: {integrity: sha512-/3FEGbpx9nK4+aO0rLJ/gKihynZL65uNcHZJ0SZBoqM3jRXRqpoADeDdHf8hZH6OXLTEZ/DGY0NRXs9xUVwP3w==}
+  '@kangtae49/just-layout@0.0.21':
+    resolution: {integrity: sha512-3ExdG1D8/eI0imDHjZS7+1uZls3owy7fqbdazWHfeUsmuIFkhgV021aUm5Rdtkavd3ukHMWF4du8lU8df0oVKA==}
     peerDependencies:
       inversify: ^7.11.0
       inversify-react: ^1.2.0
       mobx: ^6.15.0
       mobx-react-lite: ^4.1.1
       react: ^19.2.0
+      react-dnd: ^16.0.1
+      react-dnd-html5-backend: ^16.0.1
       react-dom: ^19.2.0
 
   '@listr2/prompt-adapter-inquirer@2.0.22':
@@ -6130,7 +6132,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@kangtae49/just-layout@0.0.16(@fortawesome/fontawesome-svg-core@7.1.0)(@types/node@24.10.9)(@types/react@19.2.8)(inversify-react@1.2.0(inversify@7.11.0(reflect-metadata@0.2.2))(react@19.2.3))(inversify@7.11.0(reflect-metadata@0.2.2))(mobx-react-lite@4.1.1(mobx@6.15.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(mobx@6.15.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+  '@kangtae49/just-layout@0.0.21(@fortawesome/fontawesome-svg-core@7.1.0)(inversify-react@1.2.0(inversify@7.11.0(reflect-metadata@0.2.2))(react@19.2.3))(inversify@7.11.0(reflect-metadata@0.2.2))(mobx-react-lite@4.1.1(mobx@6.15.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(mobx@6.15.0)(react-dnd-html5-backend@16.0.1)(react-dnd@16.0.1(@types/node@24.10.9)(@types/react@19.2.8)(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
     dependencies:
       '@fortawesome/free-solid-svg-icons': 7.1.0
       '@fortawesome/react-fontawesome': 3.1.1(@fortawesome/fontawesome-svg-core@7.1.0)(react@19.2.3)
@@ -6148,9 +6150,6 @@ snapshots:
       react-dom: 19.2.3(react@19.2.3)
     transitivePeerDependencies:
       - '@fortawesome/fontawesome-svg-core'
-      - '@types/hoist-non-react-statics'
-      - '@types/node'
-      - '@types/react'
 
   '@listr2/prompt-adapter-inquirer@2.0.22(@inquirer/prompts@6.0.1)':
     dependencies:

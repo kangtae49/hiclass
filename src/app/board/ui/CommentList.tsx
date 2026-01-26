@@ -42,7 +42,7 @@ const CommentList = observer(({boardId, postId, commentKey}: Props) => {
           <div className="comment-content">
             {comment.comment}
           </div>
-          <PostAttachList boardId={boardId} postId={postId} files={comment.files} />
+          <PostAttachList boardId={boardId} postId={postId} files={comment.files} isShowAttach={true} />
           {comment.reactions && (
             <CommentReplyList boardId={boardId} commentId={comment.currentId} replyKey={pathUtils.getScriptSubPath(`data\\${boardId}_comment\\${comment.currentId}.json`)} />
           )}

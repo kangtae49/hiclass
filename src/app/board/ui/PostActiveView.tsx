@@ -74,6 +74,7 @@ const PostActiveView = observer(({justId, layoutId}: Props) => {
             <PostAttachList
                 boardId={boardStore.post.boardId}
                 postId={boardStore.post.postId} files={post?.files}
+                isShowAttach={false}
             />
         </div>
     </div>
