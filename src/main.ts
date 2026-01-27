@@ -107,33 +107,70 @@ app.on('ready', async () => {
       compute: true,
     });
 
-    protocol.handle('local-resource', (async (request: Request) => {
+    protocol.handle('local-resource', async (request: Request): Promise<Response> => {
       try {
         const url = new URL(request.url);
-        // const decodedPath = decodeURIComponent(url.pathname);
-        const normalizedPath = url.pathname;
+        const normalizedPath = decodeURIComponent(url.pathname);
+
         // const normalizedPath = path.normalize(
         //   process.platform === 'win32' && decodedPath.startsWith('/')
         //     ? decodedPath.slice(1)
         //     : decodedPath
-        // );
+        // )
 
-        await fs.promises.access(normalizedPath, fs.constants.R_OK);
-
+        const stats = await fs.promises.stat(normalizedPath);
+        const fileSize = stats.size;
         const contentType = mime.lookup(normalizedPath) || 'application/octet-stream';
 
-        const nodeStream = fs.createReadStream(normalizedPath);
-        const webStream = Readable.toWeb(nodeStream) as ReadableStream;
+        const range = request.headers.get('range');
 
-        return new Response(webStream, {
-          status: 200,
-          headers: { 'Content-Type': contentType }
-        });
+        if (range) {
+          const parts = range.replace(/bytes=/, "").split("-");
+          const start = parseInt(parts[0], 10);
+          const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+
+          if (start >= fileSize || end >= fileSize) {
+            return (new Response("Requested range not satisfiable", {
+              status: 416,
+              headers: { 'Content-Range': `bytes */${fileSize}` }
+            })) as Response;
+          }
+
+          const chunkSize = (end - start) + 1;
+          const nodeStream = fs.createReadStream(normalizedPath, { start, end });
+          const webStream = Readable.toWeb(nodeStream) as ReadableStream;
+
+          return (new Response(webStream, {
+            status: 206, // Partial Content
+            headers: {
+              'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+              'Accept-Ranges': 'bytes',
+              'Content-Length': chunkSize.toString(),
+              'Content-Type': contentType,
+            }
+          })) as Response
+        } else {
+          const nodeStream = fs.createReadStream(normalizedPath);
+          const webStream = Readable.toWeb(nodeStream) as ReadableStream;
+
+          return (new Response(webStream, {
+            status: 200,
+            headers: {
+              'Content-Length': fileSize.toString(),
+              'Content-Type': contentType,
+              'Accept-Ranges': 'bytes' // 브라우저에게 Range 요청이 가능함을 알림
+            }
+          })) as Response
+        }
+        // return (new Response(webStream, {
+        //   status: 200,
+        //   headers: { 'Content-Type': contentType }
+        // })) as Response
       } catch (error) {
         console.error('Protocol Error:', error);
-        return new Response('File Not Found or Access Denied', { status: 404 });
+        return (new Response('File Not Found or Access Denied', { status: 404 })) as unknown as Response
       }
-    }) as any);
+    });
 
   }
 

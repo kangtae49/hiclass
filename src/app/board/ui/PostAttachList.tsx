@@ -19,14 +19,14 @@ const PostAttachList = observer(({boardId, postId, files, isShowAttach}: Props) 
 
   const toggleAttach = () => setShowAttach(!showAttach)
 
-  const clickFile = (boardId: string, postId: string, filePath: string) => () => {
-    const fileName = filePath.split('/').pop()
-    const localPath = pathUtils.getScriptSubPath(`data\\${boardId}_attach\\${fileName}`)
-    window.api.startFile(localPath)
-  }
+
   return (files?.length > 0 &&
     <div>
-      <div onClick={toggleAttach}>첨부파일({files?.length || 0})</div>
+      <div>
+          <span onClick={toggleAttach}>
+          첨부파일({files?.length || 0})
+          </span>
+      </div>
       <div className={classNames("attach-list", {"hide": !showAttach})}>
         {files?.map((file) => (
           <PreviewMedia key={file.seq} boardId={boardId} postId={postId} file={file} />

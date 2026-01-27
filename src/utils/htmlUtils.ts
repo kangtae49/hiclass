@@ -1,3 +1,5 @@
+import pathUtils from "@/utils/pathUtils.ts";
+
 export function replaceUrl(html: string, baseDir: string) {
   if (!html) return '';
   const isPackaged = window.api.appInfo.versions.isPackaged

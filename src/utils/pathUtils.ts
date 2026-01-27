@@ -33,6 +33,7 @@ const pathUtils = {
     if (isPackaged) {
       return filePath
     } else {
+      console.log('getLocalSrc', `local-resource://${filePath}`)
       return `local-resource://${filePath}`
       // return `local-resource://${filePath}`
       // const encodedPath = encodeURIComponent(filePath);
