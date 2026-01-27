@@ -1,5 +1,4 @@
 import {observer} from "mobx-react-lite";
-import pathUtils from "@/utils/pathUtils.ts";
 import {useState} from "react";
 import classNames from "classnames";
 import PreviewMedia from "@/app/board/ui/PreviewMedia.tsx";
