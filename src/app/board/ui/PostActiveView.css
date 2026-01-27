@@ -6,6 +6,7 @@
     height: 100%;
     padding: 5px;
     box-sizing: border-box;
+
 }
 
 .post-title {
@@ -35,7 +36,37 @@ video {
     box-sizing: border-box;
 }
 
-.fa-clone {
-    cursor: pointer;
-    color: #ccc;
+
+
+
+.attach-list {
+    display: flex;
+    flex-wrap: wrap;
 }
+.attach-list.hide {
+    display: none;
+}
+
+.preview-media {
+    width: 125px;
+    height: 100px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+}
+.preview-media.video {
+    background-color: black;
+}
+.preview-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.preview-media video {
+    width: 100%;
+    height: 100%;
+}
+
+.fa-clone {cursor: pointer;color: #ccc;}
+.fa-circle-chevron-down {cursor: pointer;color: #ccc;}
+.fa-circle-minus {cursor: pointer;color: #ccc;}

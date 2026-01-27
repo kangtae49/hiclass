@@ -2,6 +2,8 @@ import {observer} from "mobx-react-lite";
 import {useState} from "react";
 import classNames from "classnames";
 import PreviewMedia from "@/app/board/ui/PreviewMedia.tsx";
+import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
+import {faCircleChevronDown, faCircleMinus} from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   boardId: string
@@ -23,6 +25,7 @@ const PostAttachList = observer(({boardId, postId, files, isShowAttach}: Props) 
     <div>
       <div>
           <span onClick={toggleAttach}>
+              <Icon icon={showAttach ? faCircleMinus : faCircleChevronDown } />
           첨부파일({files?.length || 0})
           </span>
       </div>

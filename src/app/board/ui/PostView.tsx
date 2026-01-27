@@ -56,7 +56,12 @@ const postView = observer(({justId, layoutId: _layoutId}: Props) => {
               commentKey={commentKey}
              // comments={jsonDataStore.jsonDataMap[commentKey]?.data._embedded.postComments}
             />
-            <PostAttachList boardId={boardId} postId={postId} files={post?.files} />
+            <PostAttachList
+              boardId={boardId}
+              postId={postId}
+              files={post?.files}
+              isShowAttach={false}
+            />
         </div>
     </div>
   )

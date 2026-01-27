@@ -38,11 +38,15 @@ const PostActiveView = observer(({justId, layoutId}: Props) => {
   const posted = post?.posted ? format(new Date(post.posted), "yyyy-MM-dd HH:mm:ss") : ''
   const boardNm = post?.board.boardName
   const htmlContent = replaceUrl(post?.postContent, pathUtils.getScriptSubPath(`data\\${boardId}_attach`))
-
   const userName = post?.writeUser.userName
 
   useEffect(() => {
-    window.api.addWatchPath([boardListKey, commentKey])
+    if (commentKey) {
+      window.api.addWatchPath([commentKey])
+    }
+    if (boardListKey) {
+      window.api.addWatchPath([boardListKey])
+    }
   }, [boardListKey, commentKey])
 
   const openBoard = () => {
