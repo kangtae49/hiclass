@@ -4,7 +4,7 @@ import {observer} from "mobx-react-lite";
 import {Excalidraw, MainMenu} from "@excalidraw/excalidraw";
 import {useExcalidrawDataStore} from "./useExcalidrawDataStore.ts";
 import {EXCALIDRAW_DATA_ID} from "./excalidrawData.constants.ts";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
 import {faExpand} from "@fortawesome/free-solid-svg-icons";
 import {ExcalidrawImperativeAPI} from "@excalidraw/excalidraw/types";
