@@ -16,6 +16,7 @@ import PostActiveView from "@/app/board/ui/PostActiveView.tsx";
 import BoardListView from "@/app/board/ui/BoardListView.tsx";
 import {JustId, JustNode, JustSplitPixels, JustUtil, WinInfo} from "@kangtae49/just-layout";
 import TabTitle from "@/app/layout/TabTitle.tsx";
+import pathUtils from "@/utils/pathUtils.ts";
 
 
 export const LAYOUT_ID = "LAYOUT_ID"
@@ -46,7 +47,7 @@ export type ViewId = "top-menu" | "status-bar"
   | "bottom-panel" | "tool-bar" | "util-bar"
   | "side-menu"
   | "board-list-view" | "post-view" | "post-active-view"
-  | "about"
+  | "about" | "help"
   | "excalidraw-data-view" | "excalidraw-view"
 
 export const DND_ACCEPT_CONTENT = [
@@ -67,6 +68,7 @@ export const utilBarId: JustId = {viewId: 'util-bar', title: 'Util Bar'};
 export const sideMenuId: JustId = {viewId: 'side-menu', title: 'Menu'};
 export const aboutId: JustId = {viewId: 'about', title: 'About'};
 
+export const helpId: JustId = {viewId: 'help', title: 'Help', params: {file: pathUtils.getScriptSubPath('data\\help.excalidraw')}};
 
 
 
@@ -154,6 +156,14 @@ export const viewMap: Record<ViewId, WinInfo> = {
     getView: (justId, layoutId) => {
       return (
         <AboutView justId={justId} layoutId={layoutId} />
+      )
+    }
+  },
+  "help": {
+    getTabIcon: () => <Icon icon={faCircleQuestion} />,
+    getView: (justId, layoutId) => {
+      return (
+        <ExcalidrawDataView justId={justId} layoutId={layoutId} />
       )
     }
   },

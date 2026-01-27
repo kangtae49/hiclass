@@ -5,7 +5,7 @@ import {faBars, faGear, faPen} from "@fortawesome/free-solid-svg-icons"
 import {Menu, MenuItem} from "@szhsin/react-menu";
 import Jdenticon from "react-jdenticon";
 import {
-  aboutId, CONTENTS_VIEW, excalidrawViewId,
+  aboutId, CONTENTS_VIEW, excalidrawViewId, helpId,
   INIT_SIDE_MENU_SIZE,
   SIDE_MENU_NODE_NAME, ViewId,
   viewMap
@@ -88,15 +88,16 @@ const JustToolBar = observer(({justId: _justId, layoutId}: Props) => {
             <Icon icon={faGear} />
           </div>
         }>
-          {/*<MenuItem className="just-menu-item" onClick={() => openWin(helpId)}>*/}
-          {/*  <div className="just-icon">*/}
-          {/*    {viewMap[helpId.viewId as ViewId].getIcon(helpId, layoutId)}*/}
-          {/*  </div>*/}
-          {/*  <div className="just-title">*/}
-          {/*    {helpId.title}*/}
-          {/*  </div>*/}
-          {/*  <div className="just-icon"/>*/}
-          {/*</MenuItem>*/}
+          <MenuItem className="just-menu-item" onClick={() => openWin(helpId)}>
+            <div className="just-icon">
+              {viewMap[helpId.viewId as ViewId].getTabIcon(helpId, layoutId)}
+            </div>
+            <div className="just-title">
+              {helpId.title}
+            </div>
+            <div className="just-icon"/>
+          </MenuItem>
+
           <MenuItem className="just-menu-item" onClick={() => openWin(aboutId)}>
             <div className="just-icon">
               {viewMap[aboutId.viewId as ViewId].getTabIcon(aboutId, layoutId)}
