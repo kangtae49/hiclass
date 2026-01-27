@@ -31,8 +31,6 @@ const ExcalidrawView = observer(({justId, layoutId}: Props) => {
   const ref = useRef<HTMLDivElement | null>(null)
   const [dataKey, setDataKey] = useState<string | null>(JustUtil.getParamString(justId, 'file') ?? null)
 
-  const isFullScreen = layoutId.endsWith("_FULLSCREEN");
-
   const filterAppState = (appState: AppState): AppState => {
     if (!appState) {
       return restoreAppState({}, null) as AppState
@@ -54,7 +52,7 @@ const ExcalidrawView = observer(({justId, layoutId}: Props) => {
   }
 
   const fullScreenWin = async () => {
-    if (isFullScreen) {
+    if (justLayoutStore.isFullScreenView(layoutId)) {
       justLayoutStore.setLayout(null)
     } else {
       const branch = justLayoutStore.getBranchByJustId({justId})
@@ -139,7 +137,7 @@ const ExcalidrawView = observer(({justId, layoutId}: Props) => {
       >
         <MainMenu>
           <MainMenu.Item onSelect={fullScreenWin}>
-            <Icon icon={faExpand} /> {isFullScreen ? 'F11' : 'Full'}
+            <Icon icon={faExpand} /> {justLayoutStore.isFullScreenView(layoutId) ? 'F11' : 'Full'}
           </MainMenu.Item>
           <MainMenu.DefaultItems.LoadScene />
           <MainMenu.DefaultItems.SaveToActiveFile />

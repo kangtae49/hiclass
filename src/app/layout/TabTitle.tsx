@@ -15,7 +15,6 @@ interface Props extends React.Attributes {
   justId: JustId
   layoutId: string
   justBranch: JustBranch
-  isFullScreenView: boolean
   winInfo: WinInfo
   menuProps: {
     state?: MenuState
@@ -25,7 +24,7 @@ interface Props extends React.Attributes {
   anchorPoint: { x: number; y: number }
 }
 
-const TabTitle = observer(({layoutId, justId, justBranch, isFullScreenView, winInfo, menuProps, toggleMenu, anchorPoint}: Props) => {
+const TabTitle = observer(({layoutId, justId, justBranch, winInfo, menuProps, toggleMenu, anchorPoint}: Props) => {
   const justLayoutStore = useJustLayoutStore(layoutId);
   const tabTitleTooltip = justLayoutStore.getTabTitleTooltip(justId)
   const boardStore = useBoardStore(BOARD_ID)
@@ -66,9 +65,8 @@ const TabTitle = observer(({layoutId, justId, justBranch, isFullScreenView, winI
   }
 
   const fullScreenWin = (justId: JustId, hideTitle: boolean = false) => {
-    console.log('fullScreenWin isFullScreenView', isFullScreenView)
     justLayoutStore.activeWin({justId})
-    if (isFullScreenView) {
+    if (justLayoutStore.isFullScreenView(layoutId)) {
       justLayoutStore.setLayout(null)
     } else {
       justLayoutStore.setFullScreenLayoutByBranch(justBranch)
@@ -122,7 +120,7 @@ const TabTitle = observer(({layoutId, justId, justBranch, isFullScreenView, winI
             <Icon icon={faExpand} />
           </div>
           <div className="just-title">
-            {isFullScreenView ? 'F11' : 'Full'}
+            {justLayoutStore.isFullScreenView(layoutId) ? 'F11' : 'Full'}
           </div>
           <div className="just-icon" />
         </MenuItem>
