@@ -30,7 +30,6 @@ const AboutView = observer(({justId: _justId, layoutId: _layoutId}: Props) => {
       <div className="box">
         <div className="logo">
           <IconLogo />
-          <img src="local-resource://C:\\\\sources\\hiclass\\src-py\\data\\0b767080-05f0-4e43-88b3-d1292da7f71a_attach\\0caf7869-f706-4f21-bf24-24e040c51d71.jpg" />
         </div>
         <div className="content">
           <h2>Hi Class v{versions?.app}</h2>
