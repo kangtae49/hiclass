@@ -115,4 +115,5 @@
 .fa-circle-stop { color: var(--icon-color); }
 .fa-circle-stop:hover { transform: var(--icon-hover-scale); }
 .fa-terminal { color: white; }
-.fa-file-image {color: var(--icon-color);}
+.fa-message {color: var(--icon-color);}
+.fa-file-image {color: #008080;}

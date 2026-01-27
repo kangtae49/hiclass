@@ -9,7 +9,7 @@ import {BOARD_ID} from "@/app/board/board.constants.ts";
 import classNames from "classnames";
 import {JustId, useJustLayoutStore} from "@kangtae49/just-layout";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
-import {faFileImage} from "@fortawesome/free-solid-svg-icons";
+import {faMessage, faFileImage} from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   count: number
@@ -33,7 +33,9 @@ const BoardListRow = ({
   const row = data?._embedded.posts[index]
   const no = count - index
   const title = row?.postTitle
+  const commentCount = row?.commentCount || 0
   const attachCount = row?.files?.length || 0
+
 
   const clickPost = () => {
     const justId: JustId = { viewId: "post-active-view", title: '내용' }
@@ -47,9 +49,11 @@ const BoardListRow = ({
           <div className="row-no">{no}</div>
           <div className="row-title">
             {title}
-            {attachCount > 0 && ' - '}
-            {attachCount > 0 && <Icon icon={faFileImage} />}
-            {attachCount > 0 ? `${attachCount}` : ''}
+
+            {(attachCount + commentCount) > 0 && ' - '}
+            {commentCount > 0 && <><Icon icon={faMessage} />{commentCount}</>}
+            {attachCount > 0 && <><Icon icon={faFileImage} />{attachCount}</>}
+
           </div>
         </div>
       )}
