@@ -7,8 +7,10 @@ export function replaceUrl(html: string, baseDir: string) {
     return html.replaceAll(regex, `src="${baseDir}/$1"`)
   } else {
     return html.replaceAll(regex, (match, p1) => {
-      const encodedPath = encodeURIComponent(`${baseDir}/${p1}`);
-      return `src="http://localhost:5173/http_get?path=${encodedPath}"`
+      // const encodedPath = encodeURIComponent(`${baseDir}/${p1}`);
+      // return `src="http://localhost:5173/http_get?path=${encodedPath}"`
+      const filePath = `${baseDir}/${p1}`
+      return `src="local-resource://${filePath}"`
     })
     // return html.replaceAll(regex, `src="http://localhost:5173/http_get?path=${baseDir}/$1"`)
   }

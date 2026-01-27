@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { app, BrowserWindow  } from 'electron';
+import { app, protocol, BrowserWindow  } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import {
@@ -8,6 +8,13 @@ import {
 } from "./api_core";
 import {FileWatcher} from "./file_watcher.ts";
 import { enableLogging } from "mobx-logger";
+
+
+import mime from 'mime-types';
+import {pathToFileURL} from "node:url";
+import * as net from "node:net";
+import * as fs from "node:fs";
+import {Readable} from "node:stream";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -74,6 +81,20 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
+
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: 'local-resource',
+    privileges: {
+      standard: true,
+      secure: true,
+      supportFetchAPI: true,
+      bypassCSP: true,
+      stream: true
+    }
+  }
+]);
+
 app.on('ready', async () => {
   // console.log(app.isPackaged)
   // path.dirname()
@@ -87,8 +108,36 @@ app.on('ready', async () => {
       transaction: true,
       compute: true,
     });
-  }
 
+    protocol.handle('local-resource', (async (request: Request) => {
+      try {
+        const url = new URL(request.url);
+        // const decodedPath = decodeURIComponent(url.pathname);
+        const normalizedPath = url.pathname;
+        // const normalizedPath = path.normalize(
+        //   process.platform === 'win32' && decodedPath.startsWith('/')
+        //     ? decodedPath.slice(1)
+        //     : decodedPath
+        // );
+
+        await fs.promises.access(normalizedPath, fs.constants.R_OK);
+
+        const contentType = mime.lookup(normalizedPath) || 'application/octet-stream';
+
+        const nodeStream = fs.createReadStream(normalizedPath);
+        const webStream = Readable.toWeb(nodeStream) as ReadableStream;
+
+        return new Response(webStream, {
+          status: 200,
+          headers: { 'Content-Type': contentType }
+        });
+      } catch (error) {
+        console.error('Protocol Error:', error);
+        return new Response('File Not Found or Access Denied', { status: 404 });
+      }
+    }) as any);
+
+  }
 
 
   const mainWindow = createWindow()

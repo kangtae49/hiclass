@@ -14,7 +14,6 @@ const PreviewMedia = observer(({boardId, file}: Props) => {
   const fileName = filePath.split('/').pop()
   const localPath = pathUtils.getScriptSubPath(`data\\${boardId}_attach\\${fileName}`)
   const srcUrl = pathUtils.getLocalSrc(localPath)
-  console.log('srcUrl', srcUrl)
   return (
     <div className="preview-media">
       {isImage ?

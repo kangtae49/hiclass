@@ -33,8 +33,10 @@ const pathUtils = {
     if (isPackaged) {
       return filePath
     } else {
-      const encodedPath = encodeURIComponent(filePath);
-      return `http://localhost:5173/http_get?path=${encodedPath}`
+      return `local-resource://${filePath}`
+      // return `local-resource://${filePath}`
+      // const encodedPath = encodeURIComponent(filePath);
+      // return `http://localhost:5173/http_get?path=${encodedPath}`
     }
   }
 };
