@@ -7,7 +7,7 @@ import {observer} from "mobx-react-lite";
 import KeyDownListener from "@/app/listeners/KeyDownListener.tsx";
 import {EXCALIDRAW_DATA_KEYS} from "@/app/excalidraw-data/excalidrawData.constants.ts";
 import type {JustId, WinInfo} from "@kangtae49/just-layout";
-import {JustUtil} from "@kangtae49/just-layout";
+import {JustUtil, useJustLayoutStore} from "@kangtae49/just-layout";
 import {JustLayoutView} from "@kangtae49/just-layout";
 import {initialLayoutValue, LAYOUT_ID, ViewId, viewMap} from "@/app/layout/layout.tsx";
 import {HTML5Backend} from "react-dnd-html5-backend";
@@ -19,9 +19,10 @@ function getWinInfo(justId: JustId): WinInfo {
 }
 
 const App = observer(() => {
-  const layoutId = "LAYOUT_ID"
-
+  const layoutId = LAYOUT_ID
+  const layoutFullScreenId = `${layoutId}_FULLSCREEN`
   // const justLayoutStore = useJustLayoutStore(layoutId);
+  const justLayoutFullScreenStore = useJustLayoutStore(layoutFullScreenId)
 
   useEffect(() => {
     const startWatcher = async () => {
@@ -60,6 +61,28 @@ const App = observer(() => {
     }
 
   }, [])
+
+  useEffect(() => {
+    console.log('useEffect justLayoutFullScreenStore.layout', justLayoutFullScreenStore.layout)
+    const isFull = justLayoutFullScreenStore.layout !== null
+    console.log('isFull', isFull)
+    const changeScreen = async (isFull: boolean) => {
+      const isFullScreen = await window.api.isFullScreen()
+      if (isFullScreen !== isFull) {
+        await window.api.setFullScreen(isFull)
+      }
+
+      const isMaximized = await window.api.isMaximized();
+      if (isMaximized !== isFull) {
+        if (isFull) {
+          window.api.maximize()
+        } else {
+          window.api.unmaximize()
+        }
+      }
+    }
+    changeScreen(isFull)
+  }, [justLayoutFullScreenStore.layout])
 
   // const closeWin = (justId: JustId) => {
   //   console.log('closeWin!!!', justId)
