@@ -28,15 +28,10 @@ const ExcalidrawView = observer(({justId, layoutId}: Props) => {
 
   const justLayoutStore = useJustLayoutStore(layoutId);
   const excalidrawStore = useExcalidrawStore(JustUtil.toString(justId))
-  const [isFullScreen, setIsFullScreen] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
   const [dataKey, setDataKey] = useState<string | null>(JustUtil.getParamString(justId, 'file') ?? null)
 
-  const changeFullScreen = async () => {
-    setIsFullScreen(await window.api.isFullScreen())
-  }
-  changeFullScreen()
-
+  const isFullScreen = layoutId.endsWith("_FULLSCREEN");
 
   const filterAppState = (appState: AppState): AppState => {
     if (!appState) {
@@ -59,8 +54,7 @@ const ExcalidrawView = observer(({justId, layoutId}: Props) => {
   }
 
   const fullScreenWin = async () => {
-    const isFullScreen = await window.api.isFullScreen()
-    if(isFullScreen) {
+    if (isFullScreen) {
       justLayoutStore.setLayout(null)
     } else {
       const branch = justLayoutStore.getBranchByJustId({justId})
@@ -73,9 +67,9 @@ const ExcalidrawView = observer(({justId, layoutId}: Props) => {
 
   const handleChange = async (elements: readonly OrderedExcalidrawElement[], appState: AppState, files: BinaryFiles) => {
     if (!appState) return;
-    if (appState.openMenu) {
-      await changeFullScreen()
-    }
+    // if (appState.openMenu) {
+    //   await changeFullScreen()
+    // }
     // console.log('appState', appState)
     const strState = JSON.stringify(toJS({elements, appState: filterAppState(appState), files}))
     const strStoreState = JSON.stringify(toJS({elements: excalidrawStore.elements, appState: filterAppState(excalidrawStore.appState), files: excalidrawStore.files}))
