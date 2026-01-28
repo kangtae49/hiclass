@@ -116,4 +116,6 @@
 .fa-circle-stop:hover { transform: var(--icon-hover-scale); }
 .fa-terminal { color: white; }
 .fa-message {color: var(--icon-color);}
-.fa-file-image {color: #008080;}
+.fa-image {color: #008080;}
+.fa-film {color: #d63c2d;}
+.fa-music {color: #c53d99;}

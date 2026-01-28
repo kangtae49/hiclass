@@ -9,7 +9,7 @@ import {BOARD_ID} from "@/app/board/board.constants.ts";
 import classNames from "classnames";
 import {JustId, useJustLayoutStore} from "@kangtae49/just-layout";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
-import {faMessage, faFileImage} from "@fortawesome/free-solid-svg-icons";
+import {faMessage, faFileImage, faImage, faFilm, faMusic} from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   count: number
@@ -35,6 +35,9 @@ const BoardListRow = ({
   const title = row?.postTitle
   const commentCount = row?.commentCount || 0
   const attachCount = row?.files?.length || 0
+  const imageCount = row?.files.filter((file)=>file.fileContentType.startsWith('image')).length || 0
+  const videoCount = row?.files.filter((file)=>file.fileContentType.startsWith('video')).length || 0
+  const audioCount = row?.files.filter((file)=>file.fileContentType.startsWith('audio')).length || 0
 
 
   const clickPost = () => {
@@ -52,7 +55,9 @@ const BoardListRow = ({
 
             {(attachCount + commentCount) > 0 && ' - '}
             {commentCount > 0 && <><Icon icon={faMessage} />{commentCount}</>}
-            {attachCount > 0 && <><Icon icon={faFileImage} />{attachCount}</>}
+            {imageCount > 0 && <><Icon icon={faImage} />{imageCount}</>}
+            {videoCount > 0 && <><Icon icon={faFilm} />{videoCount}</>}
+            {audioCount > 0 && <><Icon icon={faMusic} />{audioCount}</>}
 
           </div>
         </div>
