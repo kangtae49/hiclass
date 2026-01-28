@@ -4,27 +4,18 @@ import {
   type IpcMainInvokeEvent,
 } from 'electron'
 import path from 'node:path';
-import * as XLSX from 'xlsx';
 import {SCRIPT_DIR} from "./constants.ts";
 import * as fs from 'fs';
-import { spawn, ChildProcess } from 'child_process';
 import {Env, DragStartItem, DialogResult, Versions, AppInfo} from "./types.ts";
-import iconv from 'iconv-lite';
 import * as os from "node:os";
-import {GridData} from "@/app/grid-data/gridData.types.ts";
-import {JobEvent} from "@/app/job/jobMonitor.types.ts";
-import {JobStatus} from "@/app/job/jobMonitor.constants.ts";
 import {ExcalidrawData} from "@/app/excalidraw-data/excalidrawData.types.ts";
 import {ExcalidrawState} from "@/app/excalidraw/excalidraw.types.ts";
 import {FileWatcher} from "@/file_watcher.ts";
 import {JsonData} from "@/app/json-data/jsonData.types.ts";
-// import nativeImage = Electron.nativeImage;
 
 
 // const START_DRAG_IMG = nativeImage.createFromPath(getIconSubPath('download.png'))
 const START_DRAG_IMG = getIconSubPath('assets/download.png')
-
-const runningProcesses: Map<string, ChildProcess> = new Map();
 
 
 export function handleEcho(_event: IpcMainInvokeEvent, message: string) {
@@ -61,9 +52,6 @@ export function getVersions(): Versions {
 }
 
 
-export function handleReadExcel(_event: IpcMainInvokeEvent, filePath: string) {
-  return readExcel(filePath);
-}
 
 
 export function handleReadExcalidraw(_event: IpcMainInvokeEvent, filePath: string) {
@@ -110,48 +98,6 @@ export function handleUnWatchPath(fileWatcher: FileWatcher, watchPath: string[])
 
 
 
-function readExcel(filePath: string): GridData | null {
-
-  if (!fs.existsSync(filePath)) {
-    return null
-  }
-
-  const fileBuffer = fs.readFileSync(filePath);
-  const fileStats = fs.statSync(filePath);
-  const timestamp = fileStats.mtime.getTime();
-
-  const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
-  const sheetNames = workbook.SheetNames;
-  const sheet = workbook.Sheets[sheetNames[0]]
-
-  const rows = XLSX.utils.sheet_to_json<any[]>(sheet, {
-    header: 1,
-    raw: true,
-    defval: null
-  });
-
-  const [headerRow, ...dataRows] = rows;
-  const header = (headerRow as string[]) || [];
-  const data = dataRows.map((row) => {
-    const obj: Record<string, string | number | boolean | null> = {};
-    header.forEach((key, index) => {
-      obj[key] = row[index] ?? null;
-    });
-    return obj;
-  });
-
-  // const data = XLSX.utils.sheet_to_json(sheet, {
-  //   raw: true,
-  //   defval: null,
-  // }) as Record<string, string | number | boolean | null> [];
-
-  return {
-    path: filePath,
-    timestamp,
-    header,
-    data
-  }
-}
 
 
 function readExcalidraw(filePath: string): ExcalidrawData | null {
@@ -222,6 +168,9 @@ export function getResourceSubPath(subpath: string) {
 }
 
 export function getScriptPath() {
+  if (process.env.SCRIPT_DIR) {
+    return process.env.SCRIPT_DIR
+  }
   return path.join(getResourceSubPath(SCRIPT_DIR))
 }
 
@@ -241,150 +190,7 @@ function startFile(filePath: string) {
   shell.openPath(filePath)
 }
 
-function dispatchJobEvent(window: BrowserWindow, jobEvent: JobEvent) {
-  window.webContents.send('on-job-event', jobEvent);
-}
 
-export function startScript(window: BrowserWindow, jobId: string, filePath: string, args: string[] = []) {
-  const scriptsRoot = getScriptPath();
-
-  const pythonExecutable = path.resolve(path.join(scriptsRoot, '.venv', 'Scripts', 'python.exe'));
-
-  const scriptPathAbs = path.resolve(filePath);
-  console.log('startScript', jobId, filePath, args)
-  console.log(scriptsRoot, pythonExecutable, scriptPathAbs)
-
-  try{
-
-    fs.accessSync(pythonExecutable, fs.constants.X_OK)
-    fs.accessSync(scriptPathAbs, fs.constants.R_OK);
-  } catch (err) {
-    console.log('startScript not fount script')
-    dispatchJobEvent(window, {
-      action: 'JOB_ERROR',
-      jobId,
-      data: {message: err.toString()},
-      timestamp: Date.now()
-    });
-    return;
-  }
-
-  console.log('startScript spawn')
-
-  const child = spawn(
-    pythonExecutable,
-    [scriptPathAbs, ...args],
-    {
-      cwd: scriptsRoot,
-      shell: false,
-    }
-  );
-  const pid = child.pid;
-
-  runningProcesses.set(jobId, child);
-  dispatchJobEvent(window, {
-    action: 'JOB_STATUS',
-    jobId,
-    pid,
-    data: {status: 'RUNNING'},
-    timestamp: Date.now()
-  });
-
-  child.stdout.on('data', (data) => {
-    // console.log(data.toString());
-    const decodedMessage = iconv.decode(data, 'euc-kr');
-    process.stdout.write(data)
-    dispatchJobEvent(window, {
-      action: 'JOB_STREAM',
-      jobId,
-      pid,
-      data: {message: decodedMessage, messageType: 'STDOUT'},
-      timestamp: Date.now()
-    });
-  });
-
-  child.stderr.on('data', (data) => {
-    const decodedMessage = iconv.decode(data, 'euc-kr');
-    // console.log(data.toString());
-    process.stderr.write(data)
-    dispatchJobEvent(window, {
-      action: 'JOB_STREAM',
-      jobId,
-      pid,
-      data: {message: decodedMessage, messageType: 'STDERR'},
-      timestamp: Date.now()
-    });
-  });
-
-  child.on('close', (code) => {
-    runningProcesses.delete(jobId);
-
-    const status: JobStatus = code === 0 ? 'DONE' : 'DONE';
-
-    dispatchJobEvent(window, {
-      action: 'JOB_STATUS',
-      jobId,
-      pid,
-      data: {status},
-      timestamp: Date.now()
-    });
-    console.log(`Process exit. Job ID: ${jobId}, Exit Code: ${code}`);
-  });
-
-  child.on('error', (err) => {
-    runningProcesses.delete(jobId);
-    dispatchJobEvent(window, {
-      action: 'JOB_ERROR',
-      jobId,
-      pid,
-      data: {message: `Process Execution err: ${err.message}` },
-      timestamp: Date.now()
-    });
-  });
-}
-
-
-export function stopScript(window: BrowserWindow, jobId: string) {
-  const p = runningProcesses.get(jobId);
-
-  if (!p) {
-    dispatchJobEvent(window, {
-      action: 'JOB_ERROR',
-      jobId,
-      data: {message: "not found process" },
-      timestamp: Date.now()
-    });
-    return;
-  }
-  const pid = p.pid;
-  try {
-    p.kill('SIGTERM');
-
-    setTimeout(() => {
-      if (!p.killed) {
-        p.kill('SIGKILL');
-      }
-    }, 1000);
-    dispatchJobEvent(window, {
-      action: 'JOB_STATUS',
-      jobId,
-      pid,
-      data: {status: 'STOPPED'},
-      timestamp: Date.now()
-    });
-    runningProcesses.delete(jobId);
-
-  } catch (e) {
-    const message = e instanceof Error ? e.message : 'Unknown error';
-    dispatchJobEvent(window, {
-      action: 'JOB_ERROR',
-      jobId,
-      pid,
-      data: {message},
-      timestamp: Date.now()
-    });
-  }
-}
 
 
 
@@ -467,19 +273,16 @@ export const getAppInfo = async (): Promise<AppInfo> => {
 
 export const registerHandlers = async (mainWindow: BrowserWindow, fileWatcher: FileWatcher) => {
   ipcMain.handle('get-app-info', async (_event) => await getAppInfo())
+  ipcMain.handle('get-env', handleGetEnv)
   ipcMain.handle('echo', handleEcho);
   ipcMain.handle('set-full-screen', (_event, flag) => handleSetFullScreen(mainWindow, flag))
   ipcMain.handle('is-full-screen', (_event) => handleIsFullScreen(mainWindow))
   ipcMain.handle('is-maximized', (_event) => handleIsMaximized(mainWindow))
-  ipcMain.handle('read-excel', handleReadExcel);
   ipcMain.handle('read-excalidraw', handleReadExcalidraw);
   ipcMain.handle('read-json', handleReadJson);
   ipcMain.handle('start-file', handleStartFile);
   ipcMain.handle('exists-file', handleExistsFile);
-  ipcMain.handle('start-script', async (_event, jobId: string, filePath: string, args: string []) => startScript(mainWindow, jobId, filePath, args))
-  ipcMain.handle('stop-script', async (_event, jobId: string) => stopScript(mainWindow, jobId))
   ipcMain.handle('is-lock-script-path', handleIsLockScriptPath)
-  ipcMain.handle('get-env', handleGetEnv)
   ipcMain.handle('open-save-dialog', handleOpenSaveDialog)
   ipcMain.handle('upload-file', handleUploadFile)
   ipcMain.handle('start-watching', (_event) => handleStartWatching(fileWatcher))
