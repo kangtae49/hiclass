@@ -2,11 +2,8 @@ import {inject, injectable} from "inversify";
 import {makeAutoObservable} from "mobx";
 import {BOARD_TYPES} from "./board.constants.ts";
 import {BoardService} from "./board.service.ts";
+import {Post} from "@/app/board/board.types.ts";
 
-interface Post {
-  boardId: string,
-  postId: string
-}
 
 @injectable()
 export class BoardStore {

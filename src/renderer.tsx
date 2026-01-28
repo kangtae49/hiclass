@@ -40,6 +40,8 @@ import './index.css';
 import App from './App'
 import {container} from "@/inversify.config.ts";
 import {Provider} from "inversify-react";
+import {HTML5Backend} from "react-dnd-html5-backend";
+import {DndProvider} from "react-dnd";
 
 console.log(
   '👋 This message is being logged by "renderer.ts", included via Vite',
@@ -47,7 +49,9 @@ console.log(
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider container={container}>
+      <DndProvider backend={ HTML5Backend }>
       <App />
+      </DndProvider>
     </Provider>
   </StrictMode>,
 )

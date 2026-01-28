@@ -9,7 +9,7 @@ import {ExcalidrawData} from "@/app/excalidraw-data/excalidrawData.types.ts";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
 
-const WatchListener = observer((): null => {
+const WatchListener = (): null => {
 
   const excalidrawDataStore = useExcalidrawDataStore(EXCALIDRAW_DATA_ID)
   const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
@@ -77,6 +77,6 @@ const WatchListener = observer((): null => {
     })
   }, [excalidrawDataStore])
   return null
-})
+}
 
 export default WatchListener;

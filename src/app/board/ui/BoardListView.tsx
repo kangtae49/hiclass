@@ -1,12 +1,14 @@
 import "./BoardListView.css"
 import {observer} from "mobx-react-lite";
-import {List} from "react-window";
+import {List, ListImperativeAPI} from "react-window";
 import BoardListRow from "@/app/board/ui/BoardListRow.tsx";
 import pathUtils from "@/utils/pathUtils.ts";
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
 import {JustId, JustUtil} from "@kangtae49/just-layout";
+import useBoardStore from "@/app/board/useBoardStore.ts";
+import {BOARD_ID} from "@/app/board/board.constants.ts";
 
 interface Props {
   justId: JustId
@@ -15,16 +17,28 @@ interface Props {
 
 const BoardListView = observer(({justId, layoutId}: Props) => {
   console.log("BoardListView", justId)
+  const listRef = useRef<ListImperativeAPI | null>(null);
+  const boardStore = useBoardStore(BOARD_ID)
   const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
   const boardId = JustUtil.getParamString(justId, "boardId")!
   const boardListKey = pathUtils.getScriptSubPath(`data\\${boardId}.json`)
 
+  const data = jsonDataStore.jsonDataMap[boardListKey]?.data
+  const count = data?.page.totalElements ?? 0
 
   useEffect(() => {
     window.api.addWatchPath([boardListKey])
   }, [])
-  const data = jsonDataStore.jsonDataMap[boardListKey]?.data
-  const count = data?.page.totalElements ?? 0
+
+  useEffect(() => {
+    if (boardStore.post === null) return;
+    if (!data) return;
+    const idx = data._embedded.posts.findIndex((post) => post.postId === boardStore.post?.postId)
+    if (idx >= 0) {
+      listRef?.current?.scrollToRow({align: "auto", behavior: "auto", index: idx})
+    }
+  }, [boardStore.post])
+
 
   return (
     <div className="board-list-view">
@@ -33,17 +47,18 @@ const BoardListView = observer(({justId, layoutId}: Props) => {
       </div>
       <div className="board-list-content">
         <List
-            className="board-list-table"
-            rowComponent={BoardListRow}
-            rowCount={count}
+          listRef={listRef}
+          className="board-list-table"
+          rowComponent={BoardListRow}
+          rowCount={count}
           // rowCount={200}
-            rowHeight={25}
-            rowProps={{
-              count,
-              layoutId,
-              boardId,
-            }}
-            style={{}}
+          rowHeight={25}
+          rowProps={{
+            count,
+            layoutId,
+            boardId,
+          }}
+          style={{}}
         />
       </div>
     </div>
