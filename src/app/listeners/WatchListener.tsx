@@ -1,5 +1,4 @@
 import {useEffect} from "react";
-import {observer} from "mobx-react-lite";
 import {EXCALIDRAW_DATA_ID} from "@/app/excalidraw-data/excalidrawData.constants.ts";
 import {useExcalidrawDataStore} from "@/app/excalidraw-data/useExcalidrawDataStore.ts";
 import {ExcalidrawState} from "@/app/excalidraw/excalidraw.types.ts";
