@@ -1,9 +1,8 @@
 import {observer} from "mobx-react-lite";
-import {useState} from "react";
 import classNames from "classnames";
 import PreviewMedia from "@/app/board/ui/PreviewMedia.tsx";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
-import {faCircleChevronDown, faCircleMinus, faImage} from "@fortawesome/free-solid-svg-icons";
+import {faImage} from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   boardId: string

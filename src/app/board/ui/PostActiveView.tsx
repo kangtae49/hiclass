@@ -11,9 +11,8 @@ import CommentList from "@/app/board/ui/CommentList.tsx";
 import PostAttachList from "@/app/board/ui/PostAttachList.tsx";
 import {format} from "date-fns";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
-import {faClone, faFile, faImage, faMessage} from "@fortawesome/free-solid-svg-icons";
-import {CONTENTS_VIEW} from "@/app/layout/layout.tsx";
-import {JustId, useJustLayoutStore} from "@kangtae49/just-layout";
+import {faFile, faImage, faMessage} from "@fortawesome/free-solid-svg-icons";
+import {JustId} from "@kangtae49/just-layout";
 import classNames from "classnames";
 
 interface Props {
@@ -21,8 +20,7 @@ interface Props {
   layoutId: string
 }
 
-const PostActiveView = observer(({justId, layoutId}: Props) => {
-  const justLayoutStore = useJustLayoutStore(layoutId)
+const PostActiveView = observer(({justId: _justId, layoutId: _layoutId}: Props) => {
   const boardStore = useBoardStore(BOARD_ID)
   const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
   const postId = boardStore.post?.postId
