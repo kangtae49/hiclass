@@ -9,7 +9,7 @@ import {BOARD_ID} from "@/app/board/board.constants.ts";
 import classNames from "classnames";
 import {JustId, useJustLayoutStore} from "@kangtae49/just-layout";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
-import {faMessage, faFileImage, faImage, faFilm, faMusic} from "@fortawesome/free-solid-svg-icons";
+import {faMessage, faImage, faFilm, faMusic} from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   count: number
