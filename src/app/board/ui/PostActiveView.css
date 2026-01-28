@@ -102,6 +102,14 @@ video {
     max-width: 100%;
 }
 
-.fa-clone {cursor: pointer;color: #ccc;}
-.fa-circle-chevron-down {cursor: pointer;color: #ccc;}
-.fa-circle-minus {cursor: pointer;color: #ccc;}
+.post-active-view .fa-clone {color: #ccc;}
+
+.post-active-view .fa-file {color: #ffc233;}
+.post-active-view .fa-file.inactive {color: #ccc;}
+.post-active-view .fa-message {color: #ffc233;}
+.post-active-view .fa-message.inactive {color: #ccc;}
+.post-active-view .fa-image {color: #ffc233;}
+.post-active-view .fa-image.inactive {color: #ccc;}
+
+.post-active-view .fa-circle-chevron-down {color: #ccc;}
+.post-active-view .fa-circle-minus {color: #ccc;}

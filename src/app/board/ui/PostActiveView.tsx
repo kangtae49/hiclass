@@ -11,9 +11,10 @@ import CommentList from "@/app/board/ui/CommentList.tsx";
 import PostAttachList from "@/app/board/ui/PostAttachList.tsx";
 import {format} from "date-fns";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
-import {faClone} from "@fortawesome/free-solid-svg-icons";
+import {faClone, faFile, faImage, faMessage} from "@fortawesome/free-solid-svg-icons";
 import {CONTENTS_VIEW} from "@/app/layout/layout.tsx";
 import {JustId, useJustLayoutStore} from "@kangtae49/just-layout";
+import classNames from "classnames";
 
 interface Props {
   justId: JustId
@@ -49,38 +50,59 @@ const PostActiveView = observer(({justId, layoutId}: Props) => {
     }
   }, [boardListKey, commentKey])
 
-  const openBoard = () => {
-    const postId = boardStore.post?.postId
-    const boardId = boardStore.post?.boardId
-    if (!boardId || !postId) return
-    console.log("openBoard", boardId, postId)
-    const boardJustId = {
-      ...justId,
-      title: post?.postTitle,
-      viewId: "post-view",
-      params: {boardId, postId}
-    }
-    justLayoutStore.openWinByNodeName({justId: boardJustId, nodeName: CONTENTS_VIEW})
+  // const openBoard = () => {
+  //   const postId = boardStore.post?.postId
+  //   const boardId = boardStore.post?.boardId
+  //   if (!boardId || !postId) return
+  //   console.log("openBoard", boardId, postId)
+  //   const boardJustId = {
+  //     ...justId,
+  //     title: post?.postTitle,
+  //     viewId: "post-view",
+  //     params: {boardId, postId}
+  //   }
+  //   justLayoutStore.openWinByNodeName({justId: boardJustId, nodeName: CONTENTS_VIEW})
+  // }
+
+  const toggleShowContent = () => {
+    boardStore.setShowContent(!boardStore.showContent)
+  }
+  const toggleShowComment = () => {
+    boardStore.setShowComment(!boardStore.showComment)
+  }
+
+  const toggleShowAttach = () => {
+    boardStore.setShowAttach(!boardStore.showAttach)
   }
 
   return (
     boardStore.post &&
     <div className="post-active-view">
         <div className="tm">{boardNm} {posted} {userName}</div>
-        <div className="post-title"><Icon icon={faClone} onClick={() => openBoard()}/><strong>{title}</strong></div>
+        <div className="post-title">
+            {/*<Icon icon={faClone} onClick={() => openBoard()}/>*/}
+            <Icon icon={faFile} className={classNames({"inactive": !boardStore.showContent})} onClick={() => toggleShowContent()} />
+            <Icon icon={faMessage} className={classNames({"inactive": !boardStore.showComment})} onClick={() => toggleShowComment()} />
+            <Icon icon={faImage} className={classNames({"inactive": !boardStore.showAttach})} onClick={() => toggleShowAttach()} />
+            <strong>{title}</strong></div>
         <div className="post-content">
-          <div className="post-html" dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
+          {boardStore.showContent &&
+            <div className="post-html" dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
+          }
+          {boardStore.showComment &&
             <CommentList
               boardId={boardStore.post.boardId}
               postId={boardStore.post.postId}
               commentKey={commentKey}
               // comments={jsonDataStore.jsonDataMap[commentKey]?.data._embedded.postComments}
             />
+          }
+          {boardStore.showAttach &&
             <PostAttachList
                 boardId={boardStore.post.boardId}
                 postId={boardStore.post.postId} files={post?.files}
-                isShowAttach={false}
             />
+          }
         </div>
     </div>
   )

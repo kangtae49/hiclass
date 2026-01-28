@@ -12,6 +12,9 @@ interface Post {
 export class BoardStore {
   service: BoardService;
   post: Post | null = null;
+  showContent: boolean = true
+  showComment: boolean = true
+  showAttach: boolean = true
 
   constructor(
     @inject(BOARD_TYPES.BoardService) service: BoardService
@@ -20,5 +23,9 @@ export class BoardStore {
   }
 
   setPost = (payload: Post) => { this.post = payload }
+
+  setShowContent = (payload: boolean) => { this.showContent = payload }
+  setShowComment = (payload: boolean) => { this.showComment = payload }
+  setShowAttach = (payload: boolean) => { this.showAttach = payload }
 
 }

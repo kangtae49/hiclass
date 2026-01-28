@@ -49,19 +49,18 @@ const postView = observer(({justId, layoutId: _layoutId}: Props) => {
         <div className="tm">{boardNm} {posted} {userName}</div>
         <div className="post-title"><strong>{title}</strong></div>
         <div className="post-content">
-            <div className="post-html" dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
-            <CommentList
-              boardId={boardId}
-              postId={postId}
-              commentKey={commentKey}
-             // comments={jsonDataStore.jsonDataMap[commentKey]?.data._embedded.postComments}
-            />
-            <PostAttachList
-              boardId={boardId}
-              postId={postId}
-              files={post?.files}
-              isShowAttach={false}
-            />
+          <div className="post-html" dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
+          <CommentList
+            boardId={boardId}
+            postId={postId}
+            commentKey={commentKey}
+           // comments={jsonDataStore.jsonDataMap[commentKey]?.data._embedded.postComments}
+          />
+          <PostAttachList
+            boardId={boardId}
+            postId={postId}
+            files={post?.files}
+          />
         </div>
     </div>
   )

@@ -6,6 +6,8 @@ import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
 import CommentReplyList from "@/app/board/ui/CommentReplyList.tsx";
 import pathUtils from "@/utils/pathUtils.ts";
+import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
+import {faMessage} from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   boardId: string
@@ -30,6 +32,7 @@ const CommentList = observer(({boardId, postId, commentKey}: Props) => {
   return (
     <div className="comment-list">
       <div>
+        <Icon icon={faMessage} />
         댓글 {comments?.length || 0}
       </div>
       {comments?.map((comment, index) => (
@@ -42,7 +45,7 @@ const CommentList = observer(({boardId, postId, commentKey}: Props) => {
           <div className="comment-content">
             {comment.comment}
           </div>
-          <PostAttachList boardId={boardId} postId={postId} files={comment.files} isShowAttach={true} />
+          <PostAttachList boardId={boardId} postId={postId} files={comment.files} />
           {comment.reactions && (
             <CommentReplyList boardId={boardId} commentId={comment.currentId} replyKey={pathUtils.getScriptSubPath(`data\\${boardId}_comment\\${comment.currentId}.json`)} />
           )}

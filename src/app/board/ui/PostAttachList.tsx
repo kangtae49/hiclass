@@ -3,33 +3,32 @@ import {useState} from "react";
 import classNames from "classnames";
 import PreviewMedia from "@/app/board/ui/PreviewMedia.tsx";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
-import {faCircleChevronDown, faCircleMinus} from "@fortawesome/free-solid-svg-icons";
+import {faCircleChevronDown, faCircleMinus, faImage} from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   boardId: string
   postId: string
   files: any[]
-  isShowAttach?: boolean
 }
 
-const PostAttachList = observer(({boardId, postId, files, isShowAttach}: Props) => {
+const PostAttachList = observer(({boardId, postId, files}: Props) => {
   console.log('files.length:', files?.length)
 
 
-  const [showAttach, setShowAttach] = useState(isShowAttach ?? false)
+  // const [showAttach, setShowAttach] = useState(isShowAttach ?? false)
 
-  const toggleAttach = () => setShowAttach(!showAttach)
+  // const toggleAttach = () => setShowAttach(!showAttach)
 
 
   return (files?.length > 0 &&
     <div>
       <div>
-          <span onClick={toggleAttach}>
-              <Icon icon={showAttach ? faCircleMinus : faCircleChevronDown } />
+          <span>
+              <Icon icon={faImage} />
           첨부파일({files?.length || 0})
           </span>
       </div>
-      <div className={classNames("attach-list", {"hide": !showAttach})}>
+      <div className={classNames("attach-list")}>
         {files?.map((file) => (
           <PreviewMedia key={file.seq} boardId={boardId} postId={postId} file={file} />
         // <div key={file.seq}>
