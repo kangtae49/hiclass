@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { app, protocol, BrowserWindow  } from 'electron';
+import {app, protocol, BrowserWindow, net} from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import {
@@ -13,6 +13,8 @@ import { enableLogging } from "mobx-logger";
 import mime from 'mime-types';
 import * as fs from "node:fs";
 import {Readable} from "node:stream";
+import {pathToFileURL} from "node:url";
+import {openAsBlob} from "node:fs";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -34,6 +36,7 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       additionalArguments: process.argv,
+      spellcheck: false,
       // sandbox: false,
       // contextIsolation: false,
       // nodeIntegration: true
@@ -85,10 +88,10 @@ protocol.registerSchemesAsPrivileged([
     scheme: 'local-resource',
     privileges: {
       standard: true,
+      stream: true,
       secure: true,
       supportFetchAPI: true,
-      bypassCSP: true,
-      stream: true
+      // bypassCSP: true,
     }
   }
 ]);
@@ -108,6 +111,31 @@ app.on('ready', async () => {
     });
 
     protocol.handle('local-resource', async (request: Request): Promise<Response> => {
+      // const url = new URL(request.url);
+      // const normalizedPath = decodeURIComponent(url.pathname);
+      //
+      // const fileUrl = pathToFileURL(normalizedPath).toString();
+      //
+      // return net.fetch(fileUrl);
+
+      // const url = new URL(request.url);
+      // // const filePath = decodeURIComponent(process.platform === 'win32' ? url.pathname.slice(1) : url.pathname);
+      // const normalizedPath = decodeURIComponent(url.pathname);
+      // try {
+      //   const fileBlob = await openAsBlob(normalizedPath);
+      //
+      //   return new Response(fileBlob, {
+      //     status: 200,
+      //     headers: {
+      //       'Content-Type': 'video/mp4',
+      //       'Accept-Ranges': 'bytes'
+      //     }
+      //   });
+      // } catch (e) {
+      //   return new Response('Error', { status: 404 });
+      // }
+
+
       try {
         const url = new URL(request.url);
         const normalizedPath = decodeURIComponent(url.pathname);
@@ -158,7 +186,7 @@ app.on('ready', async () => {
             headers: {
               'Content-Length': fileSize.toString(),
               'Content-Type': contentType,
-              'Accept-Ranges': 'bytes' // 브라우저에게 Range 요청이 가능함을 알림
+              'Accept-Ranges': 'bytes'
             }
           })) as Response
         }
