@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import {app, protocol, BrowserWindow, net} from 'electron';
+import {app, protocol, BrowserWindow} from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import {
@@ -13,8 +13,6 @@ import { enableLogging } from "mobx-logger";
 import mime from 'mime-types';
 import * as fs from "node:fs";
 import {Readable} from "node:stream";
-import {pathToFileURL} from "node:url";
-import {openAsBlob} from "node:fs";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
