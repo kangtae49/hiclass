@@ -19,6 +19,17 @@
 
 }
 
+.breadcrumbs {
+    display: flex;
+}
+.breadcrumbs .board:hover {
+    background-color: #cccccc;
+}
+
+.post-title .label:hover {
+    background-color: #cccccc;
+}
+
 .post-content {
     flex: 1;
     overflow-y: auto;
@@ -106,10 +117,13 @@ video {
 
 .post-active-view .fa-file {color: #ffc233;}
 .post-active-view .fa-file.inactive {color: #ccc;}
+.post-active-view .fa-file:hover {scale: 1.2;}
 .post-active-view .fa-message {color: #ffc233;}
 .post-active-view .fa-message.inactive {color: #ccc;}
+.post-active-view .fa-message:hover {scale: 1.2;}
 .post-active-view .fa-image {color: #ffc233;}
 .post-active-view .fa-image.inactive {color: #ccc;}
+.post-active-view .fa-image:hover {scale: 1.2;}
 
 .post-active-view .fa-circle-chevron-down {color: #ccc;}
 .post-active-view .fa-circle-minus {color: #ccc;}
