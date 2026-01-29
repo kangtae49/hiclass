@@ -6,7 +6,7 @@ import {observer} from "mobx-react-lite";
 import pathUtils from "@/utils/pathUtils.ts";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
-import {useCallback, useEffect} from "react";
+import {useEffect} from "react";
 import {JustId, JustUtil, useJustLayoutStore} from "@kangtae49/just-layout";
 
 interface Props {
@@ -22,11 +22,11 @@ const SideMenu = observer(({layoutId}: Props) => {
     justLayoutStore.toggleWin({nodeName: SIDE_MENU_NODE_NAME})
   }
 
-  const openBoard = useCallback((board: {boardId: string, boardNm: string}) => {
+  const openBoard = (board: {boardId: string, boardNm: string}) => {
     const boardJustId: JustId = {viewId: "board-list-view", title: board.boardNm, params: board}
     console.log('openBoard', boardJustId)
     justLayoutStore.openWinByNodeName({justId: boardJustId, nodeName: CONTENTS_VIEW})
-  }, [justLayoutStore])
+  }
   // const openWin = (justId: JustId) => {
   //   justLayoutStore.openWinMenu({justId, nodeName: CONTENTS_VIEW})
   // }
@@ -36,11 +36,11 @@ const SideMenu = observer(({layoutId}: Props) => {
     window.api.addWatchPath([boardListKey])
   }, [])
 
-  useEffect(() => {
-    if (!jsonDataStore.jsonDataMap[boardListKey]?.data) return;
-    console.log(jsonDataStore.jsonDataMap[boardListKey])
-
-  }, [jsonDataStore.jsonDataMap[boardListKey]])
+  // useEffect(() => {
+  //   if (!jsonDataStore.jsonDataMap[boardListKey]?.data) return;
+  //   console.log(jsonDataStore.jsonDataMap[boardListKey])
+  //
+  // }, [jsonDataStore.jsonDataMap[boardListKey]])
 
 
   return (
