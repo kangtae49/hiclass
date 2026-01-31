@@ -15,7 +15,6 @@ import {JustId, useJustLayoutStore} from "@kangtae49/just-layout";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
 import {faFile, faImage, faMessage} from "@fortawesome/free-solid-svg-icons";
 import {POST_ACTIVE_ID} from "@/app/post/post.constants.ts";
-import FindBar from "@/app/post/ui/FindBar.tsx";
 
 interface Props {
   justId: JustId

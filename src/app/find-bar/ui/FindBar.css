@@ -1,0 +1,14 @@
+.find-bar {
+    display: flex;
+    user-select: none;
+}
+
+.find-bar .search {
+    display: flex;
+}
+
+.find-bar .fa-magnifying-glass {color: white}
+.find-bar .fa-circle-xmark {color: white}
+.find-bar .fa-up-long {color: white}
+.find-bar .fa-down-long {color: white}
+

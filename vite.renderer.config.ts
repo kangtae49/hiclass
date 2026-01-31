@@ -4,11 +4,6 @@ import svgr from 'vite-plugin-svgr'
 import viteTsconfigPaths from "vite-tsconfig-paths";
 // import react from '@vitejs/plugin-react';
 import react from '@vitejs/plugin-react-swc';
-import type {IncomingMessage, ServerResponse} from "node:http";
-import * as fs from "node:fs";
-import mime from "mime-types";
-import fsPromises from 'fs/promises';
-import {pipeline} from "node:stream";
 
 // https://vitejs.dev/config
 export default defineConfig({

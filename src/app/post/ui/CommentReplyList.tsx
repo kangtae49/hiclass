@@ -10,7 +10,7 @@ interface Props {
   replyKey: string
 }
 
-const CommentReplyList = observer(({boardId, commentId, replyKey}: Props) => {
+const CommentReplyList = observer(({replyKey}: Props) => {
   const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
   // const commentKey = pathUtils.getScriptSubPath(`data\\${boardId}_comment\\${postId}.json`)
   const data = jsonDataStore.jsonDataMap[replyKey]?.data
