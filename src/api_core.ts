@@ -12,6 +12,7 @@ import {ExcalidrawData} from "@/app/excalidraw-data/excalidrawData.types.ts";
 import {ExcalidrawState} from "@/app/excalidraw/excalidraw.types.ts";
 import {FileWatcher} from "@/file_watcher.ts";
 import {JsonData} from "@/app/json-data/jsonData.types.ts";
+import {FindInPageOptions} from 'electron'
 
 
 // const START_DRAG_IMG = nativeImage.createFromPath(getIconSubPath('download.png'))
@@ -229,6 +230,24 @@ const onWindowClose = (window: BrowserWindow) => {
   window.close()
 }
 
+const findInPage = (event: IpcMainEvent, window: BrowserWindow, text: string, options: FindInPageOptions ) => {
+  // const webContents = event.sender;
+  // const win = BrowserWindow.fromWebContents(event.sender);
+  // const webContents = win?.webContents
+  // if (options?.findNext === true) {
+  //   webContents?.stopFindInPage("clearSelection")
+  // }
+  const reqId = window.webContents.findInPage(text, options);
+  console.log('findInPage', reqId, text, options)
+}
+
+const findStop = (event: IpcMainEvent, window: BrowserWindow) => {
+  console.log('findStop')
+  // const webContents = event.sender;
+  // const win = BrowserWindow.fromWebContents(event.sender);
+  // const webContents = win?.webContents
+  window.webContents.stopFindInPage("clearSelection")
+}
 
 const openSaveDialog = async (filePath: string, defaultName: string): Promise<DialogResult> => {
   const { filePath: savePath, canceled } = await dialog.showSaveDialog({
@@ -296,9 +315,15 @@ export const registerHandlers = async (mainWindow: BrowserWindow, fileWatcher: F
   ipcMain.on('window-unmaximize', () => onWindowUnMaximize(mainWindow))
   ipcMain.on('window-close', () => onWindowClose(mainWindow))
 
+  ipcMain.on('find-in-page', (event, text: string, options: any) => findInPage(event, mainWindow, text, options));
+  ipcMain.on('find-stop', (event) => findStop(event, mainWindow));
+  mainWindow.webContents.on('found-in-page', (event, result) => mainWindow.webContents.send('find-result', result));
+
   powerMonitor.on('suspend', () => mainWindow.webContents.send('on-suspend'))
   mainWindow.on('enter-full-screen', () => mainWindow.webContents.send('on-change-full-screen', true))
   mainWindow.on('leave-full-screen', () => mainWindow.webContents.send('on-change-full-screen', false))
   mainWindow.on('maximize', () => mainWindow.webContents.send('on-change-maximize', true))
   mainWindow.on('unmaximize', () => mainWindow.webContents.send('on-change-maximize', false))
+
+
 }

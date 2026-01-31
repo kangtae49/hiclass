@@ -5,6 +5,7 @@ import "./JustStatusBar.css"
 // import {useJustLayoutStore} from "@/app/components/just-layout/useJustLayoutStore.ts";
 import {observer} from "mobx-react-lite";
 import {JustId} from "@kangtae49/just-layout";
+import FindBar from "@/app/find-bar/ui/FindBar.tsx";
 
 interface Props {
   justId: JustId
@@ -23,7 +24,7 @@ const JustStatusBar = observer(({justId: _justId}: Props) => {
   return (
     <div className="just-status-bar">
       <div className="just-status-center">
-
+        <FindBar />
       </div>
       {/*<div*/}
       {/*  className={classNames("just-status-icon", {"on": !isHide})}*/}

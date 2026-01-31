@@ -39,7 +39,6 @@ const WatchListener = (): null => {
             retryWithBackoff<ExcalidrawData | null>(async () => {
               return await window.api.readExcalidraw(watchFile.path)
             }, { retries: 2, timeout: 500}).then((data) => {
-              console.log('readExcalidraw', data)
               if (data) {
                 excalidrawDataStore.updateExcalidrawData(data)
               }

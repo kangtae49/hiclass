@@ -1,10 +1,10 @@
 import {observer} from "mobx-react-lite";
 import {useEffect} from "react";
-import PostAttachList from "@/app/board/ui/PostAttachList.tsx";
+import PostAttachList from "@/app/post/ui/PostAttachList.tsx";
 import {format} from "date-fns";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
-import CommentReplyList from "@/app/board/ui/CommentReplyList.tsx";
+import CommentReplyList from "@/app/post/ui/CommentReplyList.tsx";
 import pathUtils from "@/utils/pathUtils.ts";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
 import {faMessage} from "@fortawesome/free-solid-svg-icons";
@@ -22,7 +22,6 @@ const CommentList = observer(({boardId, postId, commentKey}: Props) => {
   const data = jsonDataStore.jsonDataMap[commentKey]?.data
   const comments = data?._embedded?.postComments
   // console.log(comments)
-  console.log('CommentList', boardId, postId, commentKey)
   useEffect(() => {
     if (commentKey) {
       window.api.addWatchPath([commentKey])
@@ -35,7 +34,7 @@ const CommentList = observer(({boardId, postId, commentKey}: Props) => {
         <Icon icon={faMessage} />
         댓글 {comments?.length || 0}
       </div>
-      {comments?.map((comment, index) => (
+      {comments?.map((comment: any, index: number) => (
         <div key={index} className="comment">
           <div className="comment-title">
             {comment.writeUser.userName}

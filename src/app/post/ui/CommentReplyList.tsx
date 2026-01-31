@@ -1,6 +1,5 @@
 import {observer} from "mobx-react-lite";
 import {useEffect} from "react";
-import PostAttachList from "@/app/board/ui/PostAttachList.tsx";
 import {format} from "date-fns";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
@@ -9,7 +8,6 @@ interface Props {
   boardId: string
   commentId: string
   replyKey: string
-  // comments: any []
 }
 
 const CommentReplyList = observer(({boardId, commentId, replyKey}: Props) => {
@@ -18,7 +16,6 @@ const CommentReplyList = observer(({boardId, commentId, replyKey}: Props) => {
   const data = jsonDataStore.jsonDataMap[replyKey]?.data
   const comments = data?._embedded?.postComments
   // console.log(comments)
-  console.log('CommentList', boardId, commentId, replyKey)
   useEffect(() => {
     if (replyKey) {
       window.api.addWatchPath([replyKey])
@@ -32,7 +29,7 @@ const CommentReplyList = observer(({boardId, commentId, replyKey}: Props) => {
           <div>답글 {comments?.length || 0}</div>
         )
       }
-      {comments?.map((comment, index) => (
+      {comments?.map((comment: any, index: number) => (
         <div key={index} className="comment">
           <div className="comment-title">
             {comment.writeUser.userName}

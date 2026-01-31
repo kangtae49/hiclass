@@ -1,7 +1,7 @@
 // See the Electron documentation for details on how to use preload scripts:
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 // import "reflect-metadata";
-import {contextBridge, ipcRenderer, webUtils } from 'electron'
+import {contextBridge, FindInPageOptions, ipcRenderer, webUtils} from 'electron'
 import {DragStartItem, Env, WatchEvent, DialogResult, AppInfo} from "@/types.ts";
 import * as Electron from "electron";
 import {ExcalidrawData} from "@/app/excalidraw-data/excalidrawData.types.ts";
@@ -38,6 +38,9 @@ export interface Api {
   maximize(): void
   unmaximize(): void
   close(): void
+
+  findInPage(text: string, options: FindInPageOptions): void
+  findStop(): void
 
   onWatchEvent(callback: (event: Electron.IpcRendererEvent, data: WatchEvent) => void): void
 
@@ -124,6 +127,12 @@ const getApi = async (): Promise<Api> => {
     },
     close() {
       ipcRenderer.send('window-close')
+    },
+    findInPage(text: string, options: FindInPageOptions) {
+      ipcRenderer.send('find-in-page', text, options)
+    },
+    findStop() {
+      ipcRenderer.send('find-stop')
     },
     onWatchEvent(callback: (event: Electron.IpcRendererEvent, data: WatchEvent) => void) {
       ipcRenderer.removeAllListeners('on-watch-event');

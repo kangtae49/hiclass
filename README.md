@@ -2,10 +2,8 @@
 pnpm start
 ```
 
-
-## mobx-logger
 ```shell
-pnpm add mobx-logger
+set SCRIPT_DIR=C:\sources\hiclass\src-py&hiclass.exe
 ```
-- `toJS(storeCache.get('LAYOUT_ID').layout)`
+
 

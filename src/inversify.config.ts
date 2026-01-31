@@ -6,6 +6,8 @@ import {toJS} from "mobx";
 import {jsonDataModule} from "@/app/json-data/jsonData.module.ts";
 import {boardModule} from "@/app/board/board.module.ts";
 import {justLayoutModule} from "@kangtae49/just-layout";
+import {postModule} from "@/app/post/post.module.ts";
+import {findBarModule} from "@/app/find-bar/findBar.module.ts";
 
 const container = new Container();
 
@@ -14,6 +16,8 @@ const appModules = [
   justLayoutModule,
   jsonDataModule,
   boardModule,
+  postModule,
+  findBarModule,
   excalidrawModule,
   excalidrawDataModule,
 ]

@@ -5,8 +5,8 @@ import {faCircleXmark, faClone, faExpand} from "@fortawesome/free-solid-svg-icon
 import {ControlledMenu, MenuItem, MenuState} from "@szhsin/react-menu";
 import {JustBranch, JustId, useJustLayoutStore, WinInfo} from "@kangtae49/just-layout";
 import {CONTENTS_VIEW} from "@/app/layout/layout.tsx";
-import useBoardStore from "@/app/board/useBoardStore.ts";
-import {BOARD_ID} from "@/app/board/board.constants.ts";
+import usePostStore from "@/app/post/usePostStore.ts";
+import {POST_ACTIVE_ID} from "@/app/post/post.constants.ts";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
 import pathUtils from "@/utils/pathUtils.ts";
@@ -27,7 +27,7 @@ interface Props extends React.Attributes {
 const TabTitle = observer(({layoutId, justId, justBranch, winInfo, menuProps, toggleMenu, anchorPoint}: Props) => {
   const justLayoutStore = useJustLayoutStore(layoutId);
   const tabTitleTooltip = justLayoutStore.getTabTitleTooltip(justId)
-  const boardStore = useBoardStore(BOARD_ID)
+  const postStore = usePostStore(POST_ACTIVE_ID)
   const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
 
   const clickClose = (justId: JustId) => {
@@ -48,12 +48,12 @@ const TabTitle = observer(({layoutId, justId, justBranch, winInfo, menuProps, to
   //   })
   // }
   const NewWin = (justId: JustId) => {
-    const postId = boardStore.post?.postId
-    const boardId = boardStore.post?.boardId
+    const postId = postStore.post?.postId
+    const boardId = postStore.post?.boardId
     const boardListKey = pathUtils.getScriptSubPath(`data\\${boardId}.json`)
     const boardListData = jsonDataStore.jsonDataMap[boardListKey]?.data
     const posts = boardListData?._embedded.posts
-    const post = posts?.find(post => post.postId === postId)
+    const post = posts?.find((post: any) => post.postId === postId)
 
     const newJustId = {
       ...justId,

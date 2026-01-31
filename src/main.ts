@@ -57,6 +57,9 @@ const createWindow = () => {
     );
   }
 
+  // mainWindow.webContents.on('before-input-event', (event, input) => {
+  //   mainWindow.webContents.setIgnoreMenuShortcuts(!input.control && !input.meta)
+  // })
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
   return mainWindow;

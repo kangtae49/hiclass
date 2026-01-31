@@ -7,8 +7,8 @@ import {useEffect, useRef} from "react";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
 import {JustId, JustUtil} from "@kangtae49/just-layout";
-import useBoardStore from "@/app/board/useBoardStore.ts";
-import {BOARD_ID} from "@/app/board/board.constants.ts";
+import usePostStore from "@/app/post/usePostStore.ts";
+import {POST_ACTIVE_ID} from "@/app/post/post.constants.ts";
 
 interface Props {
   justId: JustId
@@ -18,7 +18,7 @@ interface Props {
 const BoardListView = observer(({justId, layoutId}: Props) => {
   console.log("BoardListView", justId)
   const listRef = useRef<ListImperativeAPI | null>(null);
-  const boardStore = useBoardStore(BOARD_ID)
+  const postStore = usePostStore(POST_ACTIVE_ID)
   const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
   const boardId = JustUtil.getParamString(justId, "boardId")!
   const boardListKey = pathUtils.getScriptSubPath(`data\\${boardId}.json`)
@@ -31,13 +31,13 @@ const BoardListView = observer(({justId, layoutId}: Props) => {
   }, [])
 
   useEffect(() => {
-    if (boardStore.post === null) return;
+    if (postStore.post === null) return;
     if (!data) return;
-    const idx = data._embedded.posts.findIndex((post) => post.postId === boardStore.post?.postId)
+    const idx = data._embedded.posts.findIndex((post: any) => post.postId === postStore.post?.postId)
     if (idx >= 0) {
       listRef?.current?.scrollToRow({align: "auto", behavior: "auto", index: idx})
     }
-  }, [boardStore.post])
+  }, [postStore.post])
 
 
   return (
@@ -58,6 +58,7 @@ const BoardListView = observer(({justId, layoutId}: Props) => {
             layoutId,
             boardId,
           }}
+          overscanCount={250}
           style={{}}
         />
       </div>

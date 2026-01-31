@@ -1,20 +1,21 @@
 import "./PostActiveView.css"
 import {observer} from "mobx-react-lite";
-import useBoardStore from "@/app/board/useBoardStore.ts";
-import {BOARD_ID} from "@/app/board/board.constants.ts";
+import usePostStore from "@/app/post/usePostStore.ts";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
 import pathUtils from "@/utils/pathUtils.ts";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {replaceUrl} from "@/utils/htmlUtils.ts";
-import CommentList from "@/app/board/ui/CommentList.tsx";
-import PostAttachList from "@/app/board/ui/PostAttachList.tsx";
+import CommentList from "@/app/post/ui/CommentList.tsx";
+import PostAttachList from "@/app/post/ui/PostAttachList.tsx";
 import {format} from "date-fns";
-import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
-import {faFile, faImage, faMessage} from "@fortawesome/free-solid-svg-icons";
-import {JustId, useJustLayoutStore} from "@kangtae49/just-layout";
 import classNames from "classnames";
 import {CONTENTS_VIEW} from "@/app/layout/layout.tsx";
+import {JustId, useJustLayoutStore} from "@kangtae49/just-layout";
+import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
+import {faFile, faImage, faMessage} from "@fortawesome/free-solid-svg-icons";
+import {POST_ACTIVE_ID} from "@/app/post/post.constants.ts";
+import FindBar from "@/app/post/ui/FindBar.tsx";
 
 interface Props {
   justId: JustId
@@ -22,11 +23,11 @@ interface Props {
 }
 
 const PostActiveView = observer(({layoutId}: Props) => {
-  const boardStore = useBoardStore(BOARD_ID)
+  const postStore = usePostStore(POST_ACTIVE_ID)
   const justLayoutStore = useJustLayoutStore(layoutId)
   const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
-  const postId = boardStore.post?.postId
-  const boardId = boardStore.post?.boardId
+  const postId = postStore.post?.postId
+  const boardId = postStore.post?.boardId
 
   const boardListKey = pathUtils.getScriptSubPath(`data\\${boardId}.json`)
   const commentKey = pathUtils.getScriptSubPath(`data\\${boardId}_comment\\${postId}.json`)
@@ -34,7 +35,7 @@ const PostActiveView = observer(({layoutId}: Props) => {
   const boardListData = jsonDataStore.jsonDataMap[boardListKey]?.data
 
   const posts = boardListData?._embedded.posts
-  const post = posts?.find(post => post.postId === postId)
+  const post = posts?.find((post: any) => post.postId === postId)
 
   const title = post?.postTitle
   const posted = post?.posted ? format(new Date(post.posted), "yyyy-MM-dd HH:mm:ss") : ''
@@ -51,35 +52,20 @@ const PostActiveView = observer(({layoutId}: Props) => {
     }
   }, [boardListKey, commentKey])
 
-  // const openBoard = () => {
-  //   const postId = boardStore.post?.postId
-  //   const boardId = boardStore.post?.boardId
-  //   if (!boardId || !postId) return
-  //   console.log("openBoard", boardId, postId)
-  //   const boardJustId = {
-  //     ...justId,
-  //     title: post?.postTitle,
-  //     viewId: "post-view",
-  //     params: {boardId, postId}
-  //   }
-  //   justLayoutStore.openWinByNodeName({justId: boardJustId, nodeName: CONTENTS_VIEW})
-  // }
-
   const toggleShowContent = () => {
-    boardStore.setShowContent(!boardStore.showContent)
+    postStore.setShowContent(!postStore.showContent)
   }
   const toggleShowComment = () => {
-    boardStore.setShowComment(!boardStore.showComment)
+    postStore.setShowComment(!postStore.showComment)
   }
 
   const toggleShowAttach = () => {
-    boardStore.setShowAttach(!boardStore.showAttach)
+    postStore.setShowAttach(!postStore.showAttach)
   }
 
   const openBoard = () => {
     if (!boardId) return;
     const boardJustId: JustId = {viewId: "board-list-view", title: boardNm, params: {boardId: boardId, boardNm: boardNm}}
-    console.log('openBoard', boardJustId)
     justLayoutStore.openWinByNodeName({justId: boardJustId, nodeName: CONTENTS_VIEW})
   }
 
@@ -87,42 +73,50 @@ const PostActiveView = observer(({layoutId}: Props) => {
     if (!postId || !boardId) return;
     openBoard()
     const postJustId: JustId = { viewId: "post-active-view", title: '내용' }
-    boardStore.setPost({boardId, postId})
-    setImmediate(() => {
+    postStore.setPost({boardId, postId})
+    setTimeout(() => {
       justLayoutStore.openWinByNodeName({justId: postJustId, nodeName: CONTENTS_VIEW})
-    })
+    }, 0)
   }
+
+  // const onKeyDown = (event: any) => {
+  //   console.log('onKeyDown')
+  //   if ((event.ctrlKey || event.metaKey) && event.key === 'f') {
+  //     console.log('Ctrl + F')
+  //     postStore.setShowFindBar(true)
+  //   }
+  // }
+
   return (
-    boardStore.post &&
-    <div className="post-active-view">
+    postStore.post &&
+    <div className="post-active-view" tabIndex={0}>
+      {/*{postStore.showFindBar && <FindBar  />}*/}
       <div className="breadcrumbs">
         <div className="board" onClick={openBoard}> {boardNm} </div>
         <div>{posted}</div>
         <div>{userName}</div>
       </div>
       <div className="post-title">
-          {/*<Icon icon={faClone} onClick={() => openBoard()}/>*/}
-          <Icon icon={faFile} className={classNames({"inactive": !boardStore.showContent})} onClick={() => toggleShowContent()} />
-          <Icon icon={faMessage} className={classNames({"inactive": !boardStore.showComment})} onClick={() => toggleShowComment()} />
-          <Icon icon={faImage} className={classNames({"inactive": !boardStore.showAttach})} onClick={() => toggleShowAttach()} />
+          <Icon icon={faFile} className={classNames({"inactive": !postStore.showContent})} onClick={() => toggleShowContent()} />
+          <Icon icon={faMessage} className={classNames({"inactive": !postStore.showComment})} onClick={() => toggleShowComment()} />
+          <Icon icon={faImage} className={classNames({"inactive": !postStore.showAttach})} onClick={() => toggleShowAttach()} />
           <div className="label" onClick={openPost}>{title}</div>
       </div>
       <div className="post-content">
-        {boardStore.showContent &&
+        {postStore.showContent &&
           <div className="post-html" dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
         }
-        {boardStore.showComment &&
+        {postStore.showComment &&
           <CommentList
-            boardId={boardStore.post.boardId}
-            postId={boardStore.post.postId}
+            boardId={postStore.post.boardId}
+            postId={postStore.post.postId}
             commentKey={commentKey}
-            // comments={jsonDataStore.jsonDataMap[commentKey]?.data._embedded.postComments}
           />
         }
-        {boardStore.showAttach &&
+        {postStore.showAttach &&
           <PostAttachList
-              boardId={boardStore.post.boardId}
-              postId={boardStore.post.postId}
+              boardId={postStore.post.boardId}
+              postId={postStore.post.postId}
               files={post?.files}
           />
         }

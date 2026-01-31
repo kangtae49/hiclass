@@ -34,7 +34,6 @@ const JustToolBar = observer(({justId: _justId, layoutId}: Props) => {
 
   const openBoard = (board: {boardId: string, boardNm: string}) => {
     const justId: JustId = {viewId: "board-list-view", title: board.boardNm, params: board}
-    console.log('openBoard', justId)
     justLayoutStore.openWinByNodeName({justId, nodeName: CONTENTS_VIEW})
   }
 
@@ -46,15 +45,9 @@ const JustToolBar = observer(({justId: _justId, layoutId}: Props) => {
   const isHide = justLayoutStore.isPrimaryHide({nodeName: SIDE_MENU_NODE_NAME}) ?? false;
 
   useEffect(() => {
-    console.log(boardListKey)
     window.api.addWatchPath([boardListKey])
   }, [])
 
-  useEffect(() => {
-    if (!jsonDataStore.jsonDataMap[boardListKey]) return;
-    console.log(jsonDataStore.jsonDataMap[boardListKey])
-
-  }, [jsonDataStore.jsonDataMap[boardListKey]])
 
   return (
     <div className="just-tool-bar">
@@ -68,7 +61,7 @@ const JustToolBar = observer(({justId: _justId, layoutId}: Props) => {
       <div className="just-tool-center">
         {
           (size <= 40 || isHide) &&
-          jsonDataStore.jsonDataMap[boardListKey].data.boardList.map(item =>
+          jsonDataStore.jsonDataMap[boardListKey].data.boardList.map((item: any) =>
             <div key={JustUtil.toString(item.boardId)} className="just-tool-center-menu" onClick={() => openBoard(item)} title={item.boardNm}>
               <div className="just-icon">
                 <Jdenticon size="25" value={item.boardNm} />

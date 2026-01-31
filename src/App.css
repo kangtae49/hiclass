@@ -4,6 +4,7 @@
     width: 100%;
     height: 100%;
     background-color: #272d30;
+    user-select: none;
 }
 *:focus {
     outline: none;

@@ -1,5 +1,5 @@
 import "./SideMenu.css"
-import Jdenticon from "react-jdenticon";
+import Jdenticon from 'react-jdenticon';
 import IconMinimize from "@/assets/minimize.svg?react"
 import {CONTENTS_VIEW, SIDE_MENU_NODE_NAME} from "@/app/layout/layout";
 import {observer} from "mobx-react-lite";
@@ -24,7 +24,6 @@ const SideMenu = observer(({layoutId}: Props) => {
 
   const openBoard = (board: {boardId: string, boardNm: string}) => {
     const boardJustId: JustId = {viewId: "board-list-view", title: board.boardNm, params: board}
-    console.log('openBoard', boardJustId)
     justLayoutStore.openWinByNodeName({justId: boardJustId, nodeName: CONTENTS_VIEW})
   }
   // const openWin = (justId: JustId) => {
@@ -32,7 +31,6 @@ const SideMenu = observer(({layoutId}: Props) => {
   // }
 
   useEffect(() => {
-    console.log(boardListKey)
     window.api.addWatchPath([boardListKey])
   }, [])
 
@@ -51,7 +49,7 @@ const SideMenu = observer(({layoutId}: Props) => {
       </div>
       <div className="side-menu-items">
         {
-          jsonDataStore.jsonDataMap[boardListKey]?.data.boardList.map(item =>
+          jsonDataStore.jsonDataMap[boardListKey]?.data.boardList.map((item: any) =>
             <div key={JustUtil.toString(item.boardId)} className="side-menu-item" onClick={() => openBoard(item)}>
               <div className="side-menu-icon">
                 <Jdenticon size="25" value={item.boardNm} />

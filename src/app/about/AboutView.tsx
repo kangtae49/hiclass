@@ -16,7 +16,6 @@ const AboutView = observer(({justId: _justId, layoutId: _layoutId}: Props) => {
   const [versions, setVersions] = useState<Versions | null>(null)
 
   onLoad(() => {
-    console.log("onLoad")
     setVersions(window.api.appInfo.versions)
 
     // window.api.getVersions().then(res => {

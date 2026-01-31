@@ -1,6 +1,6 @@
 import {observer} from "mobx-react-lite";
 import classNames from "classnames";
-import PreviewMedia from "@/app/board/ui/PreviewMedia.tsx";
+import PreviewMedia from "@/app/post/ui/PreviewMedia.tsx";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
 import {faImage} from "@fortawesome/free-solid-svg-icons";
 
@@ -11,7 +11,6 @@ interface Props {
 }
 
 const PostAttachList = observer(({boardId, postId, files}: Props) => {
-  console.log('files.length:', files?.length)
 
 
   // const [showAttach, setShowAttach] = useState(isShowAttach ?? false)
