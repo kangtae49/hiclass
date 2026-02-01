@@ -6,7 +6,7 @@ import {
 import path from 'node:path';
 import {SCRIPT_DIR} from "./constants.ts";
 import * as fs from 'fs';
-import {Env, DragStartItem, DialogResult, Versions, AppInfo, SearchResult} from "./types.ts";
+import {Env, DragStartItem, DialogResult, Versions, AppInfo} from "./types.ts";
 import * as os from "node:os";
 import {ExcalidrawData} from "@/app/excalidraw-data/excalidrawData.types.ts";
 import {ExcalidrawState} from "@/app/excalidraw/excalidraw.types.ts";
@@ -300,10 +300,10 @@ export function handleSearchText(_event: IpcMainInvokeEvent, text: string) {
 function searchText(text: string): any[] {
   const pathBoardList = getScriptSubPath('data\\board_list.json')
   const boardList = JSON.parse(fs.readFileSync(pathBoardList, 'utf8')).boardList
-  const retList: SearchResult[] = []
+  const retList: any[] = []
   for (const board of boardList) {
     const boardId = board.boardId
-    const boardNm = board.boardNm
+    // const boardNm = board.boardNm
     const pathPostList = getScriptSubPath(`data\\${boardId}.json`)
     const postList = JSON.parse(fs.readFileSync(pathPostList, 'utf8'))._embedded.posts
     for (const post of postList) {
@@ -312,7 +312,6 @@ function searchText(text: string): any[] {
       }
     }
   }
-  // console.log('retList:', retList)
   return retList
 }
 

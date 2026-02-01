@@ -1,5 +1,5 @@
 import {RowComponentProps} from "react-window";
-import {Observer} from "mobx-react-lite";
+import {observer} from "mobx-react-lite";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
 import pathUtils from "@/utils/pathUtils.ts";
@@ -10,14 +10,15 @@ import classNames from "classnames";
 import {JustId, useJustLayoutStore} from "@kangtae49/just-layout";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
 import {faMessage, faImage, faFilm, faMusic} from "@fortawesome/free-solid-svg-icons";
+import {Attributes} from "react";
 
-interface Props {
+interface Props extends Attributes {
   count: number
   layoutId: string
   boardId: string
 }
 
-const PostListRow = ({
+const PostListRow = observer(({
   index,
   style,
   count,
@@ -46,24 +47,20 @@ const PostListRow = ({
     justLayoutStore.openWinByNodeName({justId, nodeName: CONTENTS_VIEW})
   }
   return (
-    <Observer>
-      {() => (
-        <div className={classNames("post-list-row", {"active": postStore.post?.postId === row?.postId})} style={style} onClick={clickPost}>
-          <div className="row-no">{no}</div>
-          <div className="row-title">
-            {title}
+    <div className={classNames("post-list-row", {"active": postStore.post?.postId === row?.postId})} style={style} onClick={clickPost}>
+      <div className="row-no">{no}</div>
+      <div className="row-title">
+        {title}
 
-            {(attachCount + commentCount) > 0 && ' - '}
-            {commentCount > 0 && <><Icon icon={faMessage} />{commentCount}</>}
-            {imageCount > 0 && <><Icon icon={faImage} />{imageCount}</>}
-            {videoCount > 0 && <><Icon icon={faFilm} />{videoCount}</>}
-            {audioCount > 0 && <><Icon icon={faMusic} />{audioCount}</>}
+        {(attachCount + commentCount) > 0 && ' - '}
+        {commentCount > 0 && <><Icon icon={faMessage} />{commentCount}</>}
+        {imageCount > 0 && <><Icon icon={faImage} />{imageCount}</>}
+        {videoCount > 0 && <><Icon icon={faFilm} />{videoCount}</>}
+        {audioCount > 0 && <><Icon icon={faMusic} />{audioCount}</>}
 
-          </div>
-        </div>
-      )}
-    </Observer>
+      </div>
+    </div>
   )
-}
+})
 
 export default PostListRow

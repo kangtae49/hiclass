@@ -1,5 +1,5 @@
 import {RowComponentProps} from "react-window";
-import {observer, Observer} from "mobx-react-lite";
+import {observer} from "mobx-react-lite";
 import {CONTENTS_VIEW} from "@/app/layout/layout.tsx";
 import usePostStore from "@/app/post/usePostStore.ts";
 import {POST_ACTIVE_ID} from "@/app/post/post.constants.ts";

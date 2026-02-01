@@ -1,8 +1,7 @@
 import "./SearchView.css"
 import {observer} from "mobx-react-lite";
-import {JustId, JustUtil} from "@kangtae49/just-layout";
+import {JustId} from "@kangtae49/just-layout";
 import {List, ListImperativeAPI} from "react-window";
-import PostListRow from "@/app/post-list/ui/PostListRow.tsx";
 import {useRef} from "react";
 import useSearchStore from "@/app/search/useSearchStore.ts";
 import {SEARCH_ID} from "@/app/search/search.constants.ts";
@@ -13,7 +12,7 @@ interface Props {
   layoutId: string
 }
 
-const SearchView = observer(({justId, layoutId}: Props) => {
+const SearchView = observer(({layoutId}: Props) => {
   const listRef = useRef<ListImperativeAPI | null>(null);
   const searchStore = useSearchStore(SEARCH_ID)
   // if (!searchStore.searchText) return null
