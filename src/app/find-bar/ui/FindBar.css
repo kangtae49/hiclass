@@ -1,10 +1,15 @@
 .find-bar {
     display: flex;
     user-select: none;
+    padding: 0 0 0 4px;
 }
 
 .find-bar .search {
     display: flex;
+}
+
+.find-bar .search-text {
+    padding: 0 0 0 10px;
 }
 
 .find-bar .fa-magnifying-glass {color: white}

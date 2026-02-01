@@ -5,9 +5,18 @@ import {FIND_BAR_ID} from "@/app/find-bar/findBar.constants.ts";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
 import {faCircleXmark, faDownLong, faMagnifyingGlass, faUpLong} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
+import useSearchStore from "@/app/search/useSearchStore.ts";
+import {SEARCH_ID} from "@/app/search/search.constants.ts";
+import {JustId, useJustLayoutStore} from "@kangtae49/just-layout";
+import {CONTENTS_VIEW} from "@/app/layout/layout.tsx";
 
-const FindBar = observer(() => {
+interface Props {
+  layoutId: string
+}
+const FindBar = observer(({layoutId}: Props) => {
   const findBarStore = useFindBarStore(FIND_BAR_ID)
+  const searchStore = useSearchStore(SEARCH_ID)
+  const justLayoutStore = useJustLayoutStore(layoutId)
 
   const clearText = () => {
     findBarStore.setShowFindBar(false)
@@ -21,11 +30,12 @@ const FindBar = observer(() => {
 
   const findText = () => {
     console.log('findText', findBarStore.findText)
-    if (!findBarStore.findText) return
+    if (!findBarStore.findText.trim()) return
     // window.api.findStop()
     window.api.findInPage(findBarStore.findText, {findNext: true, forward: true})
     window.api.searchText(findBarStore.findText).then((res) => {
-      console.log(res)
+      searchStore.setSearchText(findBarStore.findText.trim())
+      searchStore.setPostList(res)
     })
   }
 
@@ -41,6 +51,11 @@ const FindBar = observer(() => {
     window.api.findInPage(findBarStore.findText, {findNext: false, forward: false})
   }
 
+  const openSearchView = () => {
+    const searchJustId: JustId = { viewId: 'search-view', title: '검색'}
+    justLayoutStore.openWinByNodeName({justId: searchJustId, nodeName: CONTENTS_VIEW})
+  }
+
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
       findText()
@@ -49,7 +64,7 @@ const FindBar = observer(() => {
   return (
     <div className="find-bar">
       <div className="search">
-        <div>
+        <div onClick={openSearchView}>
           <Icon icon={faMagnifyingGlass} />
         </div>
         <div className="search-text">

@@ -7,6 +7,7 @@ import {jsonDataModule} from "@/app/json-data/jsonData.module.ts";
 import {justLayoutModule} from "@kangtae49/just-layout";
 import {postModule} from "@/app/post/post.module.ts";
 import {findBarModule} from "@/app/find-bar/findBar.module.ts";
+import {searchModule} from "@/app/search/search.module.ts";
 
 const container = new Container();
 
@@ -16,6 +17,7 @@ const appModules = [
   jsonDataModule,
   postModule,
   findBarModule,
+  searchModule,
   excalidrawModule,
   excalidrawDataModule,
 ]

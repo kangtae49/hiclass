@@ -11,7 +11,7 @@ interface Props {
   justId: JustId
   layoutId: string
 }
-const JustStatusBar = observer(({justId: _justId}: Props) => {
+const JustStatusBar = observer(({layoutId}: Props) => {
   // const justLayoutStore = useJustLayoutStore(layoutId)
 
 
@@ -24,7 +24,7 @@ const JustStatusBar = observer(({justId: _justId}: Props) => {
   return (
     <div className="just-status-bar">
       <div className="just-status-center">
-        <FindBar />
+        <FindBar layoutId={layoutId}/>
       </div>
       {/*<div*/}
       {/*  className={classNames("just-status-icon", {"on": !isHide})}*/}

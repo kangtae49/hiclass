@@ -1,5 +1,5 @@
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
-import {faCircleQuestion, faCircleInfo, faPen} from "@fortawesome/free-solid-svg-icons";
+import {faCircleQuestion, faCircleInfo, faPen, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import SideMenu from "@/app/side-menu/ui/SideMenu.tsx";
 import Jdenticon from "react-jdenticon";
 import AboutView from "@/app/about/AboutView.tsx";
@@ -17,6 +17,7 @@ import PostListView from "@/app/post-list/ui/PostListView.tsx";
 import {JustId, JustNode, JustSplitPixels, JustUtil, WinInfo} from "@kangtae49/just-layout";
 import TabTitle from "@/app/layout/TabTitle.tsx";
 import pathUtils from "@/utils/pathUtils.ts";
+import SearchView from "@/app/search/ui/SearchView.tsx";
 
 
 export const LAYOUT_ID = "LAYOUT_ID"
@@ -47,11 +48,13 @@ export type ViewId = "top-menu" | "status-bar"
   | "bottom-panel" | "tool-bar" | "util-bar"
   | "side-menu"
   | "post-list-view" | "post-view" | "post-active-view"
+  | "search-view"
   | "about" | "help"
   | "excalidraw-data-view" | "excalidraw-view"
 
 export const DND_ACCEPT_CONTENT = [
   "post-list-view", "post-view", "post-active-view",
+  "search-view",
   "about", "help",
   "excalidraw-view", "excalidraw-data-view",
 ]
@@ -148,6 +151,14 @@ export const viewMap: Record<ViewId, WinInfo> = {
     getView: (justId, layoutId) => {
       return (
         <PostActiveView justId={justId} layoutId={layoutId} />
+      )
+    }
+  },
+  "search-view": {
+    getTabIcon: () => <Icon icon={faMagnifyingGlass} />,
+    getView: (justId, layoutId) => {
+      return (
+        <SearchView justId={justId} layoutId={layoutId} />
       )
     }
   },
