@@ -23,6 +23,9 @@ const App = observer(() => {
   const justLayoutFullScreenStore = useJustLayoutStore(layoutFullScreenId)
 
   useEffect(() => {
+
+
+
     const startWatcher = async () => {
       await window.api.startWatching()
 

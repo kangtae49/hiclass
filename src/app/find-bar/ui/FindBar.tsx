@@ -24,6 +24,9 @@ const FindBar = observer(() => {
     if (!findBarStore.findText) return
     // window.api.findStop()
     window.api.findInPage(findBarStore.findText, {findNext: true, forward: true})
+    window.api.searchText(findBarStore.findText).then((res) => {
+      console.log(res)
+    })
   }
 
   const findNext = () => {

@@ -6,7 +6,7 @@ import {
 import path from 'node:path';
 import {SCRIPT_DIR} from "./constants.ts";
 import * as fs from 'fs';
-import {Env, DragStartItem, DialogResult, Versions, AppInfo} from "./types.ts";
+import {Env, DragStartItem, DialogResult, Versions, AppInfo, SearchResult} from "./types.ts";
 import * as os from "node:os";
 import {ExcalidrawData} from "@/app/excalidraw-data/excalidrawData.types.ts";
 import {ExcalidrawState} from "@/app/excalidraw/excalidraw.types.ts";
@@ -175,6 +175,10 @@ export function getScriptPath() {
   return path.join(getResourceSubPath(SCRIPT_DIR))
 }
 
+export function getScriptSubPath(subpath: string) {
+  return path.join(getScriptPath(), subpath)
+}
+
 
 function isLockScriptPath(filePath: string) {
   const fileDir = path.dirname(filePath);
@@ -289,6 +293,65 @@ export const getAppInfo = async (): Promise<AppInfo> => {
     scriptPath: getScriptPath(),
   }
 }
+export function handleSearchText(_event: IpcMainInvokeEvent, text: string) {
+  return searchText(text)
+}
+
+function searchText(text: string): any[] {
+  const pathBoardList = getScriptSubPath('data\\board_list.json')
+  const boardList = JSON.parse(fs.readFileSync(pathBoardList, 'utf8')).boardList
+  const retList: SearchResult[] = []
+  for (const board of boardList) {
+    const boardId = board.boardId
+    const boardNm = board.boardNm
+    const pathPostList = getScriptSubPath(`data\\${boardId}.json`)
+    const postList = JSON.parse(fs.readFileSync(pathPostList, 'utf8'))._embedded.posts
+    for (const post of postList) {
+      if (searchPost(post, boardId, text)) {
+        retList.push(post)
+      }
+    }
+  }
+  // console.log('retList:', retList)
+  return retList
+}
+
+function searchPost(post: any, boardId: string, text: string): boolean {
+  const postId: string = post.postId
+
+  const postTitle: string = post.postTitle
+  if (postTitle?.indexOf(text) >= 0) { return true }
+  const postContent: string = post.postContent
+  if (postContent?.indexOf(text) >= 0) { return true }
+  const userName: string = post.writeUser.userName
+  if (userName?.indexOf(text) >= 0)  { return true }
+  const commentCount: number = post.commentCount
+  if (commentCount > 0) {
+    const pathCommentList = getScriptSubPath(`data\\${boardId}_comment\\${postId}.json`)
+    const commentList = JSON.parse(fs.readFileSync(pathCommentList, 'utf8'))._embedded.postComments
+    for (const comment of commentList) {
+      const commentContent: string = comment.comment
+      if (commentContent?.indexOf(text) >= 0)  { return true }
+      const commentUserName: string = comment.writeUser.userName
+      if (commentUserName?.indexOf(text) >= 0)  { return true }
+      const reactions: any[] | null = comment.reactions
+      if (reactions) {
+        const currentId: string = comment.currentId
+        const pathReplyList = getScriptSubPath(`data\\${boardId}_comment\\${currentId}.json`)
+        const replyList = JSON.parse(fs.readFileSync(pathReplyList, 'utf8'))._embedded.postComments
+        for (const reply of replyList) {
+          const replyContent: string = reply.comment
+          if (replyContent?.indexOf(text) >= 0)  { return true }
+          const replyUserName: string = reply.writeUser.userName
+          if (replyUserName?.indexOf(text) >= 0)  { return true }
+        }
+      }
+    }
+  }
+  return false
+}
+
+
 
 export const registerHandlers = async (mainWindow: BrowserWindow, fileWatcher: FileWatcher) => {
   ipcMain.handle('get-app-info', async (_event) => await getAppInfo())
@@ -308,6 +371,7 @@ export const registerHandlers = async (mainWindow: BrowserWindow, fileWatcher: F
   ipcMain.handle('stop-watching', (_event) => handleStopWatching(fileWatcher))
   ipcMain.handle('add-watch-path', (_event, watchPath: string[]) => handleAddWatchPath(fileWatcher, watchPath))
   ipcMain.handle('un-watch-path', (_event, watchPath: string[]) => handleUnWatchPath(fileWatcher, watchPath))
+  ipcMain.handle('search-text', handleSearchText);
 
   ipcMain.on('ondragstart', onDragStart);
   ipcMain.on('window-minimize', () => onWindowMinimize(mainWindow))

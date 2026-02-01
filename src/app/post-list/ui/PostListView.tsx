@@ -1,7 +1,7 @@
-import "./BoardListView.css"
+import "./PostListView.css"
 import {observer} from "mobx-react-lite";
 import {List, ListImperativeAPI} from "react-window";
-import BoardListRow from "@/app/board/ui/BoardListRow.tsx";
+import PostListRow from "@/app/post-list/ui/PostListRow.tsx";
 import pathUtils from "@/utils/pathUtils.ts";
 import {useEffect, useRef} from "react";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
@@ -15,8 +15,7 @@ interface Props {
   layoutId: string
 }
 
-const BoardListView = observer(({justId, layoutId}: Props) => {
-  console.log("BoardListView", justId)
+const PostListView = observer(({justId, layoutId}: Props) => {
   const listRef = useRef<ListImperativeAPI | null>(null);
   const postStore = usePostStore(POST_ACTIVE_ID)
   const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
@@ -41,15 +40,15 @@ const BoardListView = observer(({justId, layoutId}: Props) => {
 
 
   return (
-    <div className="board-list-view">
-      <div className="board-list-title">
-        <div className="board-list-name">{JustUtil.getParamString(justId, "boardNm")}</div>
+    <div className="post-list-view">
+      <div className="post-list-title">
+        <div className="post-list-name">{JustUtil.getParamString(justId, "boardNm")}</div>
       </div>
-      <div className="board-list-content">
+      <div className="post-list-content">
         <List
           listRef={listRef}
-          className="board-list-table"
-          rowComponent={BoardListRow}
+          className="post-list-table"
+          rowComponent={PostListRow}
           rowCount={count}
           // rowCount={200}
           rowHeight={25}
@@ -66,4 +65,4 @@ const BoardListView = observer(({justId, layoutId}: Props) => {
   )
 })
 
-export default BoardListView
+export default PostListView

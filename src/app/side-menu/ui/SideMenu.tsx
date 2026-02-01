@@ -23,7 +23,7 @@ const SideMenu = observer(({layoutId}: Props) => {
   }
 
   const openBoard = (board: {boardId: string, boardNm: string}) => {
-    const boardJustId: JustId = {viewId: "board-list-view", title: board.boardNm, params: board}
+    const boardJustId: JustId = {viewId: "post-list-view", title: board.boardNm, params: board}
     justLayoutStore.openWinByNodeName({justId: boardJustId, nodeName: CONTENTS_VIEW})
   }
   // const openWin = (justId: JustId) => {

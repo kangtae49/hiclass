@@ -33,7 +33,7 @@ const JustToolBar = observer(({justId: _justId, layoutId}: Props) => {
   }
 
   const openBoard = (board: {boardId: string, boardNm: string}) => {
-    const justId: JustId = {viewId: "board-list-view", title: board.boardNm, params: board}
+    const justId: JustId = {viewId: "post-list-view", title: board.boardNm, params: board}
     justLayoutStore.openWinByNodeName({justId, nodeName: CONTENTS_VIEW})
   }
 

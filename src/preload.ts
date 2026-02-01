@@ -2,7 +2,7 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 // import "reflect-metadata";
 import {contextBridge, FindInPageOptions, ipcRenderer, webUtils} from 'electron'
-import {DragStartItem, Env, WatchEvent, DialogResult, AppInfo} from "@/types.ts";
+import {DragStartItem, Env, WatchEvent, DialogResult, AppInfo, SearchResult} from "@/types.ts";
 import * as Electron from "electron";
 import {ExcalidrawData} from "@/app/excalidraw-data/excalidrawData.types.ts";
 import {JsonData} from "@/app/json-data/jsonData.types.ts";
@@ -25,6 +25,7 @@ export interface Api {
   stopWatching: () => Promise<void>
   addWatchPath: (watchPath: string[]) => Promise<void>
   unWatchPath: (watchPath: string[]) => Promise<void>
+  searchText: (text: string) => Promise<SearchResult[]>
 
   getPathForFile(file: File): string
   readExcalidraw(filePath: string): Promise<ExcalidrawData | null>
@@ -91,6 +92,9 @@ const getApi = async (): Promise<Api> => {
     },
     unWatchPath: (watchPath): Promise<void> => {
       return ipcRenderer.invoke('un-watch-path', watchPath)
+    },
+    searchText: (text: string): Promise<SearchResult[]> => {
+      return ipcRenderer.invoke('search-text', text)
     },
     readExcalidraw(filePath: string): Promise<ExcalidrawData | null> {
       return ipcRenderer.invoke('read-excalidraw', filePath);

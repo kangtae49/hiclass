@@ -66,15 +66,15 @@ const postView = observer(({justId, layoutId}: Props) => {
     postStore.setShowAttach(!postStore.showAttach)
   }
 
-  const openBoard = () => {
+  const openPostList = () => {
     if (!boardId) return;
-    const boardJustId: JustId = {viewId: "board-list-view", title: boardNm, params: {boardId: boardId, boardNm: boardNm}}
-    justLayoutStore.openWinByNodeName({justId: boardJustId, nodeName: CONTENTS_VIEW})
+    const postListJustId: JustId = {viewId: "post-list-view", title: boardNm, params: {boardId: boardId, boardNm: boardNm}}
+    justLayoutStore.openWinByNodeName({justId: postListJustId, nodeName: CONTENTS_VIEW})
   }
 
   const openPost = () => {
     if (!postId || !boardId) return;
-    openBoard()
+    openPostList()
     const postJustId: JustId = { viewId: "post-active-view", title: '내용' }
     postActiveStore.setPost({boardId, postId})
     setTimeout(() => {
@@ -86,7 +86,7 @@ const postView = observer(({justId, layoutId}: Props) => {
     postStore.post &&
     <div className="post-active-view">
       <div className="breadcrumbs">
-        <div className="board" onClick={openBoard}> {boardNm} </div>
+        <div className="board" onClick={openPostList}> {boardNm} </div>
         <div>{posted}</div>
         <div>{userName}</div>
       </div>

@@ -38,6 +38,7 @@
 
 video {
     width: 100% !important;
+    object-fit: scale-down;
 }
 
 .comment {

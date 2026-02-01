@@ -17,7 +17,7 @@ interface Props {
   boardId: string
 }
 
-const BoardListRow = ({
+const PostListRow = ({
   index,
   style,
   count,
@@ -48,7 +48,7 @@ const BoardListRow = ({
   return (
     <Observer>
       {() => (
-        <div className={classNames("board-list-row", {"active": postStore.post?.postId === row?.postId})} style={style} onClick={clickPost}>
+        <div className={classNames("post-list-row", {"active": postStore.post?.postId === row?.postId})} style={style} onClick={clickPost}>
           <div className="row-no">{no}</div>
           <div className="row-title">
             {title}
@@ -66,4 +66,4 @@ const BoardListRow = ({
   )
 }
 
-export default BoardListRow
+export default PostListRow

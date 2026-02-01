@@ -13,7 +13,7 @@ import ExcalidrawView from "@/app/excalidraw/ExcalidrawView.tsx";
 import ExcalidrawDataView from "@/app/excalidraw-data/ExcalidrawDataView.tsx";
 import PostView from "@/app/post/ui/PostView.tsx";
 import PostActiveView from "@/app/post/ui/PostActiveView.tsx";
-import BoardListView from "@/app/board/ui/BoardListView.tsx";
+import PostListView from "@/app/post-list/ui/PostListView.tsx";
 import {JustId, JustNode, JustSplitPixels, JustUtil, WinInfo} from "@kangtae49/just-layout";
 import TabTitle from "@/app/layout/TabTitle.tsx";
 import pathUtils from "@/utils/pathUtils.ts";
@@ -46,12 +46,12 @@ export const INIT_BOTTOM_PANEL_SIZE = 200
 export type ViewId = "top-menu" | "status-bar"
   | "bottom-panel" | "tool-bar" | "util-bar"
   | "side-menu"
-  | "board-list-view" | "post-view" | "post-active-view"
+  | "post-list-view" | "post-view" | "post-active-view"
   | "about" | "help"
   | "excalidraw-data-view" | "excalidraw-view"
 
 export const DND_ACCEPT_CONTENT = [
-  "board-list-view", "post-view", "post-active-view",
+  "post-list-view", "post-view", "post-active-view",
   "about", "help",
   "excalidraw-view", "excalidraw-data-view",
 ]
@@ -126,11 +126,11 @@ export const viewMap: Record<ViewId, WinInfo> = {
       )
     }
   },
-  "board-list-view": {
+  "post-list-view": {
     getTabIcon: (justId) => <Jdenticon size="30" value={JustUtil.getParamString(justId, "boardNm")} />,
     getView: (justId, layoutId) => {
       return (
-        <BoardListView justId={justId} layoutId={layoutId} />
+        <PostListView justId={justId} layoutId={layoutId} />
       )
     }
   },
