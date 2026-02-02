@@ -388,5 +388,14 @@ export const registerHandlers = async (mainWindow: BrowserWindow, fileWatcher: F
   mainWindow.on('maximize', () => mainWindow.webContents.send('on-change-maximize', true))
   mainWindow.on('unmaximize', () => mainWindow.webContents.send('on-change-maximize', false))
 
-
+  mainWindow.webContents.on('will-navigate', (event, url) => {
+    event.preventDefault();
+    console.log('will-navigate !!!')
+    const currentURL = mainWindow.webContents.getURL();
+    console.log(currentURL)
+    // http://localhost:5173/
+    // file:///C:/sources/hiclass/out/hiclass-win32-x64/resources/app.asar/.vite/renderer/main_window/index.html
+    // if (url.includes('google.com')) {
+    // }
+  });
 }

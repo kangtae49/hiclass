@@ -203,6 +203,15 @@ app.on('ready', async () => {
 
   }
 
+  // const filter = {
+  //   urls: [
+  //     '*://*.google.com/*',
+  //   ]
+  // }
+  // session.defaultSession.webRequest.onBeforeRequest(filter, (details, callback) => {
+  //   console.log('onBeforeRequest', details.url)
+  //   callback({ cancel: true })
+  // })
 
   const mainWindow = createWindow()
 
