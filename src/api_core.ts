@@ -390,7 +390,7 @@ export const registerHandlers = async (mainWindow: BrowserWindow, fileWatcher: F
 
   mainWindow.webContents.on('will-navigate', (event, url) => {
     event.preventDefault();
-    console.log('will-navigate !!!')
+    console.log('will-navigate !!!', url)
     const currentURL = mainWindow.webContents.getURL();
     console.log(currentURL)
     // http://localhost:5173/
