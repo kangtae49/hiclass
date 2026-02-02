@@ -47,7 +47,7 @@ const TabTitle = observer(({layoutId, justId, justBranch, winInfo, menuProps, to
   //     cloneJustId
   //   })
   // }
-  const NewWin = (justId: JustId) => {
+  const openNewWin = (justId: JustId) => {
     const postId = postStore.post?.postId
     const boardId = postStore.post?.boardId
     const boardListKey = pathUtils.getScriptSubPath(`data\\${boardId}.json`)
@@ -106,7 +106,7 @@ const TabTitle = observer(({layoutId, justId, justBranch, winInfo, menuProps, to
           </div>
           <div className="just-icon" />
         </MenuItem>
-        <MenuItem onClick={() => NewWin(justId)}>
+        <MenuItem onClick={() => openNewWin(justId)}>
           <div className="just-icon">
             <Icon icon={faClone} />
           </div>

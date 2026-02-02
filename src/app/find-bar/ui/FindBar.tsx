@@ -30,7 +30,11 @@ const FindBar = observer(({layoutId}: Props) => {
 
   const findText = () => {
     console.log('findText', findBarStore.findText)
-    if (!findBarStore.findText.trim()) return
+    if (!findBarStore.findText.trim()) {
+      searchStore.setSearchText("")
+      searchStore.setPostList([])
+      return
+    }
     // window.api.findStop()
     window.api.findInPage(findBarStore.findText, {findNext: true, forward: true})
     window.api.searchText(findBarStore.findText).then((res) => {
@@ -64,7 +68,7 @@ const FindBar = observer(({layoutId}: Props) => {
   return (
     <div className="find-bar">
       <div className="search">
-        <div onClick={openSearchView}>
+        <div className="just-status-icon" onClick={openSearchView}>
           <Icon icon={faMagnifyingGlass} />
         </div>
         <div className="search-text">
@@ -73,9 +77,9 @@ const FindBar = observer(({layoutId}: Props) => {
                  onChange={(e) => changeText(e.target.value)}/>
         </div>
       </div>
-      <div onClick={clearText}><Icon icon={faCircleXmark} /></div>
-      <div onClick={findPrev}><Icon icon={faUpLong} /></div>
-      <div onClick={findNext}><Icon icon={faDownLong} /></div>
+      <div className="just-status-icon" onClick={clearText}><Icon icon={faCircleXmark} /></div>
+      <div className="just-status-icon" onClick={findPrev}><Icon icon={faUpLong} /></div>
+      <div className="just-status-icon" onClick={findNext}><Icon icon={faDownLong} /></div>
     </div>
   )
 })

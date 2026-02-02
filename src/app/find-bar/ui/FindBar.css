@@ -1,19 +1,29 @@
 .find-bar {
     display: flex;
     user-select: none;
-    padding: 0 0 0 4px;
+    /*padding: 0 0 0 4px;*/
+    align-items: center;
 }
 
 .find-bar .search {
     display: flex;
+    align-items: center;
 }
 
 .find-bar .search-text {
-    padding: 0 0 0 10px;
+    padding: 0 0 0 8px;
 }
 
 .find-bar .fa-magnifying-glass {color: white}
 .find-bar .fa-circle-xmark {color: white}
 .find-bar .fa-up-long {color: white}
 .find-bar .fa-down-long {color: white}
-
+.find-bar .just-status-icon {
+    padding: 3px;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+.find-bar .just-status-icon svg { font-size: 13px; color: var(--icon-color);}
+.find-bar .just-status-icon:hover { background-color: rgba(255, 255, 255, 0.22);}
