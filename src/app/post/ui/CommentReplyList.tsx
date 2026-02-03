@@ -3,6 +3,7 @@ import {useEffect} from "react";
 import {format} from "date-fns";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
+import {JsonComment} from "@/app/post/post.types.ts";
 
 interface Props {
   boardId: string
@@ -14,7 +15,7 @@ const CommentReplyList = observer(({replyKey}: Props) => {
   const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
   // const commentKey = pathUtils.getScriptSubPath(`data\\${boardId}_comment\\${postId}.json`)
   const data = jsonDataStore.jsonDataMap[replyKey]?.data
-  const comments = data?._embedded?.postComments
+  const comments: JsonComment [] = data?._embedded?.postComments
   // console.log(comments)
   useEffect(() => {
     if (replyKey) {

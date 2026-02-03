@@ -1,5 +1,5 @@
 
-export function replaceUrl(html: string, baseDir: string) {
+export function replaceUrl(html: string | undefined, baseDir: string) {
   if (!html) return '';
   const isPackaged = window.api.appInfo.versions.isPackaged
   // const regex = /src="[^"]*\/([^"\/?]+)"/g;

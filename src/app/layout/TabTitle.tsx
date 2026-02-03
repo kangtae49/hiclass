@@ -10,6 +10,7 @@ import {POST_ACTIVE_ID} from "@/app/post/post.constants.ts";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
 import pathUtils from "@/utils/pathUtils.ts";
+import {JsonPost} from "@/app/post/post.types.ts";
 
 interface Props extends React.Attributes {
   justId: JustId
@@ -52,12 +53,12 @@ const TabTitle = observer(({layoutId, justId, justBranch, winInfo, menuProps, to
     const boardId = postStore.post?.boardId
     const boardListKey = pathUtils.getScriptSubPath(`data\\${boardId}.json`)
     const boardListData = jsonDataStore.jsonDataMap[boardListKey]?.data
-    const posts = boardListData?._embedded.posts
-    const post = posts?.find((post: any) => post.postId === postId)
+    const posts: JsonPost [] = boardListData?._embedded.posts
+    const post = posts?.find((post: JsonPost) => post.postId === postId)
 
-    const newJustId = {
+    const newJustId: JustId = {
       ...justId,
-      title: post?.postTitle,
+      title: post?.postTitle || '',
       viewId: "post-view",
       params: {boardId, postId}
     }

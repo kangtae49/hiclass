@@ -11,6 +11,7 @@ import {JustId, useJustLayoutStore} from "@kangtae49/just-layout";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
 import {faMessage, faImage, faFilm, faMusic} from "@fortawesome/free-solid-svg-icons";
 import {Attributes} from "react";
+import {JsonPost} from "@/app/post/post.types.ts";
 
 interface Props extends Attributes {
   count: number
@@ -31,7 +32,7 @@ const PostListRow = observer(({
 
   const boardListKey = pathUtils.getScriptSubPath(`data\\${boardId}.json`)
   const data = jsonDataStore.jsonDataMap[boardListKey]?.data
-  const row = data?._embedded.posts[index]
+  const row: JsonPost = data?._embedded.posts[index]
   const no = count - index
   const title = row?.postTitle
   const commentCount = row?.commentCount || 0

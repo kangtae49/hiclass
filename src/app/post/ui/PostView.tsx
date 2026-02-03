@@ -14,6 +14,7 @@ import {JustId, JustUtil, useJustLayoutStore} from "@kangtae49/just-layout";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
 import {faFile, faImage, faMessage} from "@fortawesome/free-solid-svg-icons";
 import {POST_ACTIVE_ID} from "@/app/post/post.constants.ts";
+import {JsonPost} from "@/app/post/post.types.ts";
 
 interface Props {
   justId: JustId
@@ -33,7 +34,7 @@ const postView = observer(({justId, layoutId}: Props) => {
 
   const boardListData = jsonDataStore.jsonDataMap[boardListKey]?.data
 
-  const posts = boardListData?._embedded.posts
+  const posts: JsonPost [] = boardListData?._embedded.posts
   const post = posts?.find((post: any) => post.postId === postId)
 
   const title = post?.postTitle
@@ -68,7 +69,7 @@ const postView = observer(({justId, layoutId}: Props) => {
 
   const openPostList = () => {
     if (!boardId) return;
-    const postListJustId: JustId = {viewId: "post-list-view", title: boardNm, params: {boardId: boardId, boardNm: boardNm}}
+    const postListJustId: JustId = {viewId: "post-list-view", title: boardNm || '', params: {boardId: boardId, boardNm: boardNm}}
     justLayoutStore.openWinByNodeName({justId: postListJustId, nodeName: CONTENTS_VIEW})
   }
 
@@ -111,7 +112,7 @@ const postView = observer(({justId, layoutId}: Props) => {
           <PostAttachList
               boardId={postStore.post.boardId}
               postId={postStore.post.postId}
-              files={post?.files}
+              files={post?.files ?? []}
           />
         }
       </div>

@@ -9,6 +9,7 @@ import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
 import {JustId, JustUtil} from "@kangtae49/just-layout";
 import usePostStore from "@/app/post/usePostStore.ts";
 import {POST_ACTIVE_ID} from "@/app/post/post.constants.ts";
+import {JsonPost} from "@/app/post/post.types.ts";
 
 interface Props {
   justId: JustId
@@ -32,7 +33,7 @@ const PostListView = observer(({justId, layoutId}: Props) => {
   useEffect(() => {
     if (postStore.post === null) return;
     if (!data) return;
-    const idx = data._embedded.posts.findIndex((post: any) => post.postId === postStore.post?.postId)
+    const idx = data._embedded.posts.findIndex((post: JsonPost) => post.postId === postStore.post?.postId)
     if (idx >= 0) {
       listRef?.current?.scrollToRow({align: "auto", behavior: "auto", index: idx})
     }

@@ -13,6 +13,7 @@ import {ExcalidrawState} from "@/app/excalidraw/excalidraw.types.ts";
 import {FileWatcher} from "@/file_watcher.ts";
 import {JsonData} from "@/app/json-data/jsonData.types.ts";
 import {FindInPageOptions} from 'electron'
+import {JsonComment, JsonPost} from "@/app/post/post.types.ts";
 
 
 // const START_DRAG_IMG = nativeImage.createFromPath(getIconSubPath('download.png'))
@@ -305,7 +306,7 @@ function searchText(text: string): any[] {
     const boardId = board.boardId
     // const boardNm = board.boardNm
     const pathPostList = getScriptSubPath(`data\\${boardId}.json`)
-    const postList = JSON.parse(fs.readFileSync(pathPostList, 'utf8'))._embedded.posts
+    const postList: JsonPost[] = JSON.parse(fs.readFileSync(pathPostList, 'utf8'))._embedded.posts
     for (const post of postList) {
       if (searchPost(post, boardId, text)) {
         retList.push(post)
@@ -315,7 +316,7 @@ function searchText(text: string): any[] {
   return retList
 }
 
-function searchPost(post: any, boardId: string, text: string): boolean {
+function searchPost(post: JsonPost, boardId: string, text: string): boolean {
   const postId: string = post.postId
 
   const postTitle: string = post.postTitle
@@ -327,7 +328,7 @@ function searchPost(post: any, boardId: string, text: string): boolean {
   const commentCount: number = post.commentCount
   if (commentCount > 0) {
     const pathCommentList = getScriptSubPath(`data\\${boardId}_comment\\${postId}.json`)
-    const commentList = JSON.parse(fs.readFileSync(pathCommentList, 'utf8'))._embedded.postComments
+    const commentList: JsonComment [] = JSON.parse(fs.readFileSync(pathCommentList, 'utf8'))._embedded.postComments
     for (const comment of commentList) {
       const commentContent: string = comment.comment
       if (commentContent?.indexOf(text) >= 0)  { return true }
@@ -337,7 +338,7 @@ function searchPost(post: any, boardId: string, text: string): boolean {
       if (reactions) {
         const currentId: string = comment.currentId
         const pathReplyList = getScriptSubPath(`data\\${boardId}_comment\\${currentId}.json`)
-        const replyList = JSON.parse(fs.readFileSync(pathReplyList, 'utf8'))._embedded.postComments
+        const replyList: JsonComment [] = JSON.parse(fs.readFileSync(pathReplyList, 'utf8'))._embedded.postComments
         for (const reply of replyList) {
           const replyContent: string = reply.comment
           if (replyContent?.indexOf(text) >= 0)  { return true }

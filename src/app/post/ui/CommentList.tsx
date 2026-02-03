@@ -8,6 +8,7 @@ import CommentReplyList from "@/app/post/ui/CommentReplyList.tsx";
 import pathUtils from "@/utils/pathUtils.ts";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome"
 import {faMessage} from "@fortawesome/free-solid-svg-icons";
+import {JsonComment} from "@/app/post/post.types.ts";
 
 interface Props {
   boardId: string
@@ -20,7 +21,7 @@ const CommentList = observer(({boardId, postId, commentKey}: Props) => {
   const jsonDataStore = useJsonDataStore(JSON_DATA_ID)
   // const commentKey = pathUtils.getScriptSubPath(`data\\${boardId}_comment\\${postId}.json`)
   const data = jsonDataStore.jsonDataMap[commentKey]?.data
-  const comments = data?._embedded?.postComments
+  const comments: JsonComment [] = data?._embedded?.postComments
   // console.log(comments)
   useEffect(() => {
     if (commentKey) {

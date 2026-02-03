@@ -4,7 +4,7 @@ import {POST_ACTIVE_ID} from "@/app/post/post.constants.ts";
 import pathUtils from "@/utils/pathUtils.ts";
 import useJsonDataStore from "@/app/json-data/useJsonDataStore.tsx";
 import {JSON_DATA_ID} from "@/app/json-data/jsonData.constants.ts";
-import {Post} from "@/app/post/post.types.ts";
+import {JsonPost, Post} from "@/app/post/post.types.ts";
 
 const KeyDownListener = () => {
   const postStore = usePostStore(POST_ACTIVE_ID)
@@ -19,7 +19,7 @@ const KeyDownListener = () => {
     const boardListKey = pathUtils.getScriptSubPath(`data\\${boardId}.json`)
     const boardListData = jsonDataStore.jsonDataMap[boardListKey]?.data
     if (!boardListData) return
-    const posts: any[] = boardListData._embedded.posts
+    const posts: JsonPost [] = boardListData._embedded.posts
     const idx = posts?.findIndex((post) => post.postId === postId)
     const nextIdx = idx === 0 ? posts.length -1 : idx - 1
     const nextPostId = posts[nextIdx].postId
@@ -34,7 +34,7 @@ const KeyDownListener = () => {
     const boardListKey = pathUtils.getScriptSubPath(`data\\${boardId}.json`)
     const boardListData = jsonDataStore.jsonDataMap[boardListKey]?.data
     if (!boardListData) return
-    const posts: any[] = boardListData._embedded.posts
+    const posts: JsonPost [] = boardListData._embedded.posts
     const idx = posts?.findIndex((post) => post.postId === postId)
     const nextIdx = idx === posts.length - 1 ? 0 : idx + 1
     const nextPostId = posts[nextIdx].postId
